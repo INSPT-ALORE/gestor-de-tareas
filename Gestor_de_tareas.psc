@@ -249,6 +249,34 @@ Funcion imprimir_tarea (tarea_nro Por Referencia, tarea_nombre Por Referencia, t
 	Escribir ""
 FinFuncion
 
+Funcion Kanban
+	Limpiar Pantalla
+	Definir seleccion Como Entero
+	Escribir "=== Kanban Menu ==="
+	MostrarTablero()
+	Escribir "Desea cambiar el estado de alguna tarea? Ingrese: "
+	Escribir "1.Mover Tarea/Cambiar estado"
+	Escribir "0.Volver al menú principal"
+	Leer seleccion
+	Mientras seleccion <> 0 Y seleccion <> 1 hacer
+		Escribir "Opcion no valida, ingrese la opcion nuevamente:"
+		Leer seleccion
+	FinMientras
+	Si seleccion = 1 Entonces
+		MoverTarea()
+	SiNo
+		Escribir "Se retorna al menú principal."
+	FinSi
+FinFuncion
+
+Funcion MostrarTablero
+	
+FinFuncion
+
+Funcion MoverTarea
+	
+FinFuncion
+
 // MENU PARA PROYECTOS (Menu, crear, modificar, visualizar y eliminar)
 Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, m por Valor, min por referencia, max por referencia)
 	Encabezado()
@@ -271,7 +299,7 @@ Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Refer
 			2:
 				modificar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			3:
-				// Gantt 
+				Gantt(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			4:
 				eliminar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			0:
@@ -433,6 +461,56 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 	FinSi
 Fin Funcion
 
+Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia)
+	Si cont_proyectos=0 Entonces
+		Escribir "No hay ningun proyecto vigente para visualizar"
+	SiNo
+		Para i<-0 hasta cont_proyectos-1 con paso 1 Hacer
+			imprimir_proyecto_tarea(ref_tarea_proyecto, proyecto_nro, cont_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j)
+		FinPara
+		Escribir ""
+		Escribir "Ingrese el Nro del proyecto que desea visualizar:"
+		Leer i
+		i<-i-1
+		Mientras i<0 o i>cont_proyectos Hacer
+			Escribir "Numero de proyecto inexistente, ingresar numero nuevamente: "
+			leer i
+		FinMientras
+		Escribir ""
+		// Dibujar el encabezado del Gantt
+		Escribir "DIAGRAMA DE GANTT"
+		Escribir "----------------"
+		Escribir "Proyecto N°" proyecto_nro[i] ": " proyecto_nombre[i]
+		Escribir "Tarea          | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30"
+		Escribir "----------------+--------------------------------------------------------------------------------"
+		
+		// Dibujar cada tarea
+		Definir z, inicio, duracion como entero
+		Para z <- 0 Hasta cont_tareas_proy-1 Hacer
+			si ref_tarea_proyecto[z] = i+1 Entonces
+				Escribir Sin Saltar p_tarea_nombre[z]
+				// Rellenar espacios para alinear
+				Para j <- 0 Hasta 15 - Longitud(p_tarea_nombre[z]) Hacer
+					Escribir Sin Saltar " "
+				FinPara
+				Escribir Sin Saltar "|"
+				// Dibujar la barra de la tarea
+				Para j <- 0 Hasta 79 Hacer
+					inicio<-Trunc(p_tarea_fechaini[z]/100)
+					duracion<-p_tarea_duracion[z]
+					Si j >= inicio Y j < (inicio + duracion) Entonces
+						Escribir Sin Saltar "X"
+					Sino
+						Escribir Sin Saltar "-"
+					FinSi
+				FinPara
+				Escribir ""
+			FinSi
+		FinPara
+		Escribir "----------------+--------------------------------------------------------------------------------"
+	FinSi
+FinFuncion
+
 Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia)
 	Encabezado()
 	Si cont_proyectos=0 Entonces
@@ -530,7 +608,7 @@ Funcion PrecargarProyecto (ref_tarea_proyecto por referencia, proyecto_nro por r
 	proyecto_nro[cont_proyectos] <- cont_proyectos+1
 	cont_proyectos<-cont_proyectos+1
 	
-	Para p<-0 hasta cont_proyectos con paso 1 hacer
+	Para p<-0 hasta cont_proyectos+1 con paso 1 hacer
 		cont_tareas_proy<-cont_tareas_proy+1
 		p_tarea_nro[p]<-cont_tareas_proy
 		ref_tarea_proyecto[p]<-cont_proyectos
