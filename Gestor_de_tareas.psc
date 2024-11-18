@@ -28,22 +28,30 @@ Algoritmo Gestor_de_Tareas
 	Repetir
 		PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
 		PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
-		Escribir "----------- Bienvenido al gestor de tareas y proyectos -----------"
-		Escribir ""
-		Escribir "Elija una opción del menú:"
-		Escribir "1.Tareas (crear, modificar, eliminar, visualizar)"
-		Escribir "2.Proyectos (crear, modificar, eliminar, visualizar)"
-		Escribir "3.Herramienta Hoja de calculo"
-		Escribir "4.Calendario"
-		Escribir "0.Finalizar programa"
-		Escribir ""
+		Escribir " ---------- Bienvenido al gestor de tareas y proyectos ---------- "
+		Escribir "|                                                                |"
+		Escribir "|                                                                |"
+		Escribir "| Elija una opción del menú:                                     |"
+		Escribir "|                                                                |"
+		Escribir "|                                                                |"
+		Escribir "| 1.Tareas (crear, modificar, eliminar, visualizar)              |"
+		Escribir "|                                                                |"
+		Escribir "| 2.Proyectos (crear, modificar, eliminar, visualizar)           |"
+		Escribir "|                                                                |"
+		Escribir "| 3.Herramienta Hoja de calculo                                  |"
+		Escribir "|                                                                |"
+		Escribir "| 4.Calendario                                                   |"
+		Escribir "|                                                                |"
+		Escribir "| 0.Finalizar programa                                           |"
+		Escribir "|                                                                |"
+		Escribir " ----------------------------------------------------------------"
 		Escribir "Elija la opcion deseada: "
 		Leer op
 		Segun op Hacer
 			1:
-				menu_tareas(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, i, flag, dia, mes, n)
+				menu_tareas(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, i, flag, dia, mes, n, eleccion)
 			2: 
-				menu_proyectos(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j, flag, dia, mes, m, min, max)
+				menu_proyectos(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j, flag, dia, mes, m, min, max, eleccion)
 			3:
 				HojaDeCalculo()
 			4:
@@ -57,16 +65,27 @@ Algoritmo Gestor_de_Tareas
 FinAlgoritmo
 
 // FUNCIONES PARA TAREAS (Menu, crear, modificar, visualizar y eliminar)
-Funcion menu_tareas(tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Referencia, i Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, n por valor)
+Funcion menu_tareas(tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Referencia, i Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, n por valor, eleccion Por Referencia)
 	Encabezado()
 	Repetir
-		Escribir "Elija la opcion deseada: "
-		Escribir "1.Crear tareas"
-		Escribir "2.Modificar tareas"
-		Escribir "3.Visualizar tareas (Kanban)"
-		Escribir "4.Eliminar tareas"
-		Escribir "0.Volver al menu principal"
-		Escribir "Elija una opcion: "
+		Escribir "  ---------- MENU DE TAREAS ------------"
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | Elija una opción del menú:           |"
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | 1. Crear tareas                      |"
+		Escribir " |                                      |"
+		Escribir " | 2. Modificar tareas                  |"
+		Escribir " |                                      |"
+		Escribir " | 3. Visualizar tareas (Kanban)        |"
+		Escribir " |                                      |"
+		Escribir " | 4. Eliminar tareas                   |"
+		Escribir " |                                      |"
+		Escribir " | 0. Volver al menu principal          |"
+		Escribir " |                                      |"
+		Escribir "  --------------------------------------"
+		Escribir "  Elija una opcion: "
 		Leer eleccion
 		Segun eleccion Hacer
 			1:
@@ -93,89 +112,101 @@ Fin Funcion
 Funcion crear_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Referencia, i Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia)
 	Encabezado()
 	tarea_nro[cont_tareas] <- cont_tareas+1
-	Escribir "Ingrese la tarea N° " tarea_nro[cont_tareas]
-	Escribir "Nombre de la tarea: "
+	Escribir " | Ingrese la tarea N°" tarea_nro[cont_tareas] "                                           |"
+	Escribir " | Nombre de la tarea:                                            |"
 	Leer tarea_nombre[cont_tareas]
-	Escribir "Fecha de ejecucion de la tarea - Ingrese dia (1 a 30):"
+	Mientras (tarea_nombre[cont_tareas] = "") Hacer
+		Escribir "| Nombre de la tarea:                                            |"
+		Leer tarea_nombre[cont_tareas]
+	FinMientras
+	Escribir " | Fecha de ejecucion de la tarea - Ingrese dia (1 a 30):         |"
 	Leer dia
 	Mientras (dia < 1 o dia > 30)
-		Escribir "Dia fuera rango, ingrese el dia nuevamente (1 a 30):"
+		Escribir "| Dia fuera rango, ingrese el dia nuevamente (1 a 30):           |"
 		leer dia
 	FinMientras
-	Escribir "Fecha de ejecucion de la tarea - Ingrese mes (1 a 12):"
+	Escribir " | Fecha de ejecucion de la tarea - Ingrese mes (1 a 12):         |"
 	Leer mes
 	Mientras (mes < 1 o mes > 12)
-		Escribir "Mes fuera rango, ingrese el mes nuevamente (1 a 12):"
+		Escribir "| Mes fuera rango, ingrese el mes nuevamente (1 a 12):           |"
 		leer mes
 	FinMientras
 	tarea_fechaini[cont_tareas] <- mes*100+dia
-	Escribir "Estado de la tarea (Ingrese un n° del 0 al 2): "
-	Escribir "0.No iniciada."
-	Escribir "1.En proceso."
-	Escribir "2.Finalizada."
+	Escribir " | Estado de la tarea (Ingrese un n° del 0 al 2):                 |"
+	Escribir " | 0. No iniciada.                                                |"
+	Escribir " | 1. En proceso.                                                 |"
+	Escribir " | 2. Finalizada.                                                 |"
 	Leer tarea_estado[cont_tareas]
 	Mientras tarea_estado[cont_tareas] < 0 o tarea_estado[cont_tareas] > 2
-		Escribir "Estado de la tarea no valido, ingrese nuevamente: "
-		Escribir "0.No iniciada."
-		Escribir "1.En proceso."
-		Escribir "2.Finalizada."
+		Escribir " | Estado de la tarea no valido. Ingrese un n° del 0 al 2:        |"
+		Escribir " | 0. No iniciada.                                                |"
+		Escribir " | 1. En proceso.                                                 |"
+		Escribir " | 2. Finalizada.                                                 |"
 		Leer tarea_estado[cont_tareas]
 	FinMientras
+	Escribir " ----------------------------------------------------------------"
 	Escribir "Tarea creada con éxito." 
 	cont_tareas <- cont_tareas+1
+	Escribir ""
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 FinFuncion
 
 Funcion modificar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Valor, i Por Referencia, k Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia)
 	Encabezado()
-	Escribir "Listado de tareas existentes"
-	Escribir "Nro - Tarea - Fecha - Estado"
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| Listado de tareas existentes                                   |"
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| N°       Tarea                     Fecha       Estado          |"
 	Para k<-0 hasta cont_tareas-1 con paso 1 Hacer
 		imprimir_tarea(tarea_nro, tarea_nombre, tarea_fechaini, tarea_estado, k)
 	FinPara
-	Escribir "Ingrese el Nro de la tarea que desea modificar."
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| Ingrese el Nro de la tarea que desea modificar:                |"
 	Leer i
 	Mientras i>cont_tareas O i< 1 Hacer
-		Escribir "La tarea no existe, ingrese nuevamente el nro de tarea que desea modificar:"
+		Escribir "| La tarea no existe, ingrese el n° de tarea a modificar:        |"
 		Leer i
 	FinMientras
 	i <- i-1
 	Repetir
-		Escribir "¿Qué desea modificar de la tarea seleccionada?"
-		Escribir "1.Nombre"
-		Escribir "2.Fecha de ejecucion"
-		Escribir "3.Estado"
-		Escribir "0.Volver al menu principal"
-		Escribir "Elija una opcion: "
+		Escribir "| ¿Qué desea modificar de la tarea seleccionada?                 |"
+		Escribir "| 1. Nombre                                                      |"
+		Escribir "| 2. Fecha de ejecucion                                          |"
+		Escribir "| 3. Estado                                                      |"
+		Escribir "| 0. Volver al menu principal                                    |"
+		Escribir "| Elija una opcion:                                              |"
 		Leer flag
 		Segun flag Hacer
 			1:
-				Escribir "Nuevo nombre de la tarea: "
+				Escribir "| Nuevo nombre de la tarea:                                      |"
 				Leer tarea_nombre[i]
 			2:
-				Escribir "Nueva fecha de ejecucion de la tarea - Ingrese dia (1 a 30):"
+				Escribir "| Nueva fecha de ejecucion de la tarea - Ingrese dia (1 a 30):       |"
 				Leer dia
 				Mientras (dia < 1 o dia > 30)
-					Escribir "Dia fuera rango, ingrese el dia nuevamente (1 a 30):"
+					Escribir "| Dia fuera rango, ingrese el dia nuevamente (1 a 30):           |"
 					leer dia
 				FinMientras
-				Escribir "Fecha de ejecucion de la tarea - Ingrese mes (1 a 12):"
+				Escribir "| Nueva fecha de ejecucion de la tarea - Ingrese mes (1 a 12):   |"
 				Leer mes
 				Mientras (mes < 1 o mes > 12)
-					Escribir "Mes fuera rango, ingrese el mes nuevamente (1 a 12):"
+					Escribir "| Mes fuera rango, ingrese el mes nuevamente (1 a 12):           |"
 					leer mes
 				FinMientras
 				tarea_fechaini[i] <- mes*100+dia
 			3:
-				Escribir "Estado de la tarea: "
-				Escribir "0.No iniciada."
-				Escribir "1.En proceso."
-				Escribir "2.Finalizada."
+				Escribir "| Estado de la tarea (Ingrese un n° del 0 al 2):                 |"
+				Escribir "| 0. No iniciada.                                                |"
+				Escribir "| 1. En proceso.                                                 |"
+				Escribir "| 2. Finalizada.                                                 |"
 				Leer tarea_estado[cont_tareas]
 				Mientras tarea_estado[cont_tareas] < 0 o tarea_estado[cont_tareas] > 2
-					Escribir "Estado de la tarea no valido, ingrese nuevamente: "
-					Escribir "0.No iniciada."
-					Escribir "1.En proceso."
-					Escribir "2.Finalizada."
+					Escribir "| Estado de la tarea no valido. Ingrese un n° del 0 al 2:        |"
+					Escribir "| 0. No iniciada.                                                |"
+					Escribir "| 1. En proceso.                                                 |"
+					Escribir "| 2. Finalizada.                                                 |"
 					Leer tarea_estado[cont_tareas]
 				FinMientras
 			0:
@@ -193,20 +224,30 @@ Funcion modificar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia
 				Si flag < 0 o flag > 1 Entonces
 					Escribir "Opcion incorrecta."
 				FinSi
+				Limpiar Pantalla
 			Hasta Que flag = 0 O flag = 1
 		FinSi
 	Hasta que flag = 0
+	Escribir ""
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 Fin Funcion
 
 Funcion eliminar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Referencia, i Por Referencia, j Por Referencia, k Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia)
 	Encabezado()
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| Listado de tareas existentes                                   |"
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| N°       Tarea                     Fecha       Estado          |"
 	Para i<-0 hasta cont_tareas-1 con paso 1 Hacer
 		imprimir_tarea(tarea_nro, tarea_nombre, tarea_fechaini, tarea_estado, i)
 	FinPara
-	Escribir "Ingrese el Nro de la tarea que desea eliminar."
+	Escribir " --------------------------------------------------------------- "
+	Escribir "| Ingrese el Nro de la tarea que desea eliminar:                1 |"
 	Leer i
 	Mientras i>cont_tareas Hacer
-		Escribir "La tarea no existe, ingrese nuevamente el nro de tarea que desea eliminar:"
+		Escribir "| La tarea no existe, ingrese el n° de tarea a eliminar:         |"
 		Leer i
 	FinMientras
 	i <- i-1
@@ -220,74 +261,68 @@ Funcion eliminar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia,
 	tarea_fechaini[cont_tareas]<-0
 	tarea_estado[cont_tareas]<-3
 	cont_tareas<-cont_tareas - 1
+	Escribir ""
 	Escribir "Tarea eliminada con exito."
 	Escribir ""
-	Escribir "Nuevo listado de tareas:"
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| Nuevo listado de tareas                                        |"
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "| N°       Tarea                     Fecha       Estado          |"
 	Para i<-0 hasta cont_tareas-1 con paso 1 Hacer
 		imprimir_tarea(tarea_nro, tarea_nombre, tarea_fechaini, tarea_estado, i)
 	FinPara
+	Escribir " ---------------------------------------------------------------- "
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 FinFuncion
 
 Funcion imprimir_tarea (tarea_nro Por Referencia, tarea_nombre Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, k Por Valor)
-	Escribir tarea_nro[k] sin saltar
-	Escribir " - " sin saltar
+	Definir g como Entero
+	Escribir "| " tarea_nro[k] sin saltar
+	Escribir "    " sin saltar
 	Escribir tarea_nombre[k] sin saltar
-	Escribir " - " sin saltar
+	Para g<-0 hasta (30-Longitud(tarea_nombre[k])) con paso 1 hacer
+		Escribir sin saltar " "
+	FinPara
 	Escribir tarea_fechaini[k] MOD 100 "/" sin saltar // desglosar el numero
 	Escribir TRUNC(tarea_fechaini[k]/100) sin saltar // desglosar el numero
-	Escribir " - " sin saltar
+	Escribir "     " sin saltar
 	Segun tarea_estado[k] hacer
 		0:
-			Escribir "No iniciada"
+			Escribir sin saltar "No iniciada"
 		1:
-			Escribir "En proceso"
+			Escribir sin saltar "En proceso "
 		2:
-			Escribir "Finalizada"
+			Escribir sin saltar "Finalizada "
 		3:
-			Escribir "Eliminada"
+			Escribir sin saltar "Eliminada  "
 	FinSegun
-	Escribir ""
-FinFuncion
-
-Funcion Kanban
-	Limpiar Pantalla
-	Definir seleccion Como Entero
-	Escribir "=== Kanban Menu ==="
-	MostrarTablero()
-	Escribir "Desea cambiar el estado de alguna tarea? Ingrese: "
-	Escribir "1.Mover Tarea/Cambiar estado"
-	Escribir "0.Volver al menú principal"
-	Leer seleccion
-	Mientras seleccion <> 0 Y seleccion <> 1 hacer
-		Escribir "Opcion no valida, ingrese la opcion nuevamente:"
-		Leer seleccion
-	FinMientras
-	Si seleccion = 1 Entonces
-		MoverTarea()
-	SiNo
-		Escribir "Se retorna al menú principal."
-	FinSi
-FinFuncion
-
-Funcion MostrarTablero
-	
-FinFuncion
-
-Funcion MoverTarea
-	
+	Escribir "        |"
 FinFuncion
 
 // MENU PARA PROYECTOS (Menu, crear, modificar, visualizar y eliminar)
-Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, m por Valor, min por referencia, max por referencia)
+Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, m por Valor, min por referencia, max por referencia, eleccion Por Referencia)
 	Encabezado()
 	Repetir
-		Escribir "Elija la opcion deseada: "
-		Escribir "1.Crear proyecto"
-		Escribir "2.Modificar proyecto"
-		Escribir "3.Visualizar proyecto (Gantt)"
-		Escribir "4.Eliminar proyecto"
-		Escribir "0.Volver al menu principal"
-		Escribir "Elija una opcion: "
+		Escribir "   -------- MENU DE PROYECTOS ---------  "
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | Elija una opción del menú:           |"
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | 1.Crear proyecto                     |"
+		Escribir " |                                      |"
+		Escribir " | 2.Modificar proyecto                 |"
+		Escribir " |                                      |"
+		Escribir " | 3.Visualizar proyecto (Gantt)        |"
+		Escribir " |                                      |"
+		Escribir " | 4.Eliminar proyecto                  |"
+		Escribir " |                                      |"
+		Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+		Escribir "  --------------------------------------"
+		Escribir "  Elija una opcion: "
 		Leer eleccion
 		Segun eleccion Hacer
 			1:
@@ -297,7 +332,7 @@ Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Refer
 					crear_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j, flag, dia, mes, m)
 				FinSi
 			2:
-				modificar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
+				modificar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max, m)
 			3:
 				Gantt(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			4:
@@ -308,61 +343,67 @@ Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Refer
 				Escribir "La opcion no esta en el menú."
 		FinSegun
 	Hasta que eleccion = 0
-
 Fin Funcion
 
 Funcion crear_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, m por valor)
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 	Encabezado()
-	Escribir "ingrese la cantidad de tareas que componen su proyecto:"
+	Escribir "| Ingrese la cantidad de tareas que componen su proyecto:        |"
 	Leer cant_tareas_proy
 	Si cant_tareas_proy > (m-cont_tareas_proy)
-		Escribir "Su proyecto tiene más tareas que las disponibles en el espacio de memoria."
+		Escribir "| Su proyecto requiere más tareas que las disponibles.           |"
 	Sino
 		proyecto_nro[cont_proyectos]<-cont_proyectos+1
-		Escribir "Ingrese el nombre del proyecto N° " proyecto_nro[cont_proyectos] ": "
+		Escribir "| Ingrese el nombre del proyecto N° " proyecto_nro[cont_proyectos] ":                           |"
 		Leer proyecto_nombre[cont_proyectos]
-		Para i<-0 Hasta cant_tareas_proy-1 Con Paso 1 Hacer
-			p_tarea_nro[i] <- cont_tareas_proy+1
-			Escribir "Ingrese la tarea N° " cont_tareas_proy+1
-			Escribir "Nombre de la tarea: "
-			Leer p_tarea_nombre[i]
-			Escribir "Fecha de inicio de la tarea - Ingrese dia (1 a 30):"
+		Para i<-0 Hasta (cant_tareas_proy-1) Con Paso 1 Hacer
+			p_tarea_nro[cont_tareas_proy] <- cont_tareas_proy+1
+			Escribir "| Ingrese la tarea N° " cont_tareas_proy+1 "                                          |" 
+			Escribir "| Nombre de la tarea:                                            |"
+			Leer p_tarea_nombre[cont_tareas_proy]
+			Escribir "| Fecha de inicio de la tarea - Ingrese dia (1 a 30):            |"
 			Leer dia
 			Mientras (dia < 1 o dia > 30)
-				Escribir "Dia fuera rango, ingrese el dia nuevamente (1 a 30):"
+				Escribir "| Dia fuera rango, ingrese el dia nuevamente (1 a 30):           |"
 				leer dia
 			FinMientras
-			Escribir "Fecha de inicio de la tarea - Ingrese mes (1 a 12):"
+			Escribir "| Fecha de inicio de la tarea - Ingrese mes (1 a 12):            |"
 			Leer mes
 			Mientras (mes < 1 o mes > 12)
-				Escribir "Mes fuera rango, ingrese el mes nuevamente (1 a 12):"
+				Escribir "| Mes fuera rango, ingrese el mes nuevamente (1 a 12):           |"
 				leer mes
 			FinMientras
-			p_tarea_fechaini[i] <- mes*100+dia
-			Escribir "Ingrese la cantidad de dias que dura la tarea:"
+			p_tarea_fechaini[cont_tareas_proy] <- mes*100+dia
+			Escribir "| Ingrese la cantidad de dias que dura la tarea:                 |"
 			Leer dia
-			p_tarea_duracion[i] <- dia
-			Escribir "Estado de la tarea: "
-			Escribir "0.No iniciada."
-			Escribir "1.En proceso."
-			Escribir "2.Finalizada."
-			Leer p_tarea_estado[i]
-			Mientras p_tarea_estado[i] < 0 o p_tarea_estado[i] > 2
-				Escribir "Estado de la tarea no valido, ingrese nuevamente: "
-				Escribir "0.No iniciada."
-				Escribir "1.En proceso."
-				Escribir "2.Finalizada."
-				Leer p_tarea_estado[i]
+			p_tarea_duracion[cont_tareas_proy] <- dia
+			Escribir "| Estado de la tarea:                                            |"
+			Escribir "| 0. No iniciada.                                                |"
+			Escribir "| 1. En proceso.                                                 |"
+			Escribir "| 2. Finalizada.                                                 |"
+			Leer p_tarea_estado[cont_tareas_proy]
+			Mientras p_tarea_estado[cont_tareas_proy] < 0 o p_tarea_estado[cont_tareas_proy] > 2
+				Escribir "| Estado de la tarea no valido, ingrese nuevamente:              |"
+				Escribir "| 0. No iniciada.                                                |"
+				Escribir "| 1. En proceso.                                                 |"
+				Escribir "| 2. Finalizada.                                                 |"
+				Leer p_tarea_estado[cont_tareas_proy]
 			FinMientras
-			ref_tarea_proyecto[i]<-cont_proyectos+1 //asocia las tareas al nro de proyecto para luego poder modificar, imprimir o eliminar un proyecto entero
+			ref_tarea_proyecto[cont_tareas_proy]<-cont_proyectos+1 //asocia las tareas al nro de proyecto para luego poder modificar, imprimir o eliminar un proyecto entero
 			cont_tareas_proy<-cont_tareas_proy+1
 			Escribir "Tarea creada con éxito."
 		FinPara
 		cont_proyectos <- cont_proyectos+1
+		Escribir ""
+		Escribir "Presione Enter para continuar..."
+		Esperar Tecla
+		Limpiar Pantalla
 	Finsi
 Fin Funcion
 
-Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia)
+Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia, m por valor)
 	Encabezado()
 	Si cont_proyectos=0 Entonces
 		Escribir "No hay ningun proyecto vigente para modificar"
@@ -371,12 +412,15 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 			imprimir_proyecto_tarea(ref_tarea_proyecto, proyecto_nro, cont_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j)
 		FinPara
 		Escribir ""
-		Escribir "Ingrese el Nro del proyecto que desea modificar."
+		Escribir "| Ingrese el Nro del proyecto que desea modificar.                |"
 		Leer i
 		i<-i-1
+		Limpiar Pantalla
 		Escribir ""
-		Escribir "Proyecto seleccionado:"
+		Escribir "| Proyecto seleccionado:                                          |"
 		imprimir_proyecto_tarea(ref_tarea_proyecto, proyecto_nro, cont_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j)
+		min<-m+1
+		max<-0
 		Para j<-0 hasta cont_tareas_proy-1 con paso 1 hacer 
 			Si ref_tarea_proyecto[j] = i+1 entonces
 				si p_tarea_nro[j] < min entonces
@@ -388,56 +432,57 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 			FinSi
 		FinPara	
 		Escribir ""
-		Escribir "Selecciones la tarea que desea modificar:"
+		Escribir "| Seleccione la tarea que desea modificar:                        |"
 		Leer j
 		Mientras j<min O j>max Hacer
-			Escribir "La tarea indicada no pertenece a este proyecto, ingrese la tarea nuevamente:"
+			Escribir "| La tarea indicada no pertenece a este proyecto                  |"
+			Escribir "| Ingrese la tarea nuevamente:                                    |"
 			Leer j
 		FinMientras
 		j<-j-1
 		
 		Repetir
-			Escribir "¿Qué desea modificar de la tarea seleccionada?"
-			Escribir "1.Nombre"
-			Escribir "2.Fecha de inicio"
-			Escribir "3.Fecha de finalizacion"
-			Escribir "4.Estado"
-			Escribir "0.Volver al menu principal"
-			Escribir "Elija una opcion: "
+			Escribir "| ¿Qué desea modificar de la tarea seleccionada?                  |"
+			Escribir "| 1.Nombre                                                        |"
+			Escribir "| 2.Fecha de inicio                                               |"
+			Escribir "| 3.Fecha de finalizacion                                         |"
+			Escribir "| 4.Estado                                                        |"
+			Escribir "| 0.Volver al menu principal                                      |"
+			Escribir "| Elija una opcion:                                               |"
 			Leer flag
 			Segun flag Hacer
 				1:
-					Escribir "Nuevo nombre de la tarea: "
+					Escribir "| Nuevo nombre de la tarea:                                       |"
 					Leer p_tarea_nombre[j]
 				2:
-					Escribir "Nueva fecha de inicio de la tarea - Ingrese dia (1 a 30):"
+					Escribir "| Nueva fecha de inicio de la tarea - Ingrese dia (1 a 30):       |"
 					Leer dia
 					Mientras (dia < 1 o dia > 30)
-						Escribir "Dia fuera rango, ingrese el dia nuevamente (1 a 30):"
+						Escribir "| Dia fuera rango, ingrese el dia nuevamente (1 a 30):           |"
 						leer dia
 					FinMientras
-					Escribir "Fecha de inicio de la tarea - Ingrese mes (1 a 12):"
+					Escribir "| Fecha de inicio de la tarea - Ingrese mes (1 a 12):             |"
 					Leer mes
 					Mientras (mes < 1 o mes > 12)
-						Escribir "Mes fuera rango, ingrese el mes nuevamente (1 a 12):"
+						Escribir "| Mes fuera rango, ingrese el mes nuevamente (1 a 12):           |"
 						leer mes
 					FinMientras
 					p_tarea_fechaini[j] <- mes*100+dia
 				3:
-					Escribir "Nueva duraacion de la tarea:"
+					Escribir "| Nueva duracion de la tarea:                                     |"
 					Leer dia
 					p_tarea_duracion[j] <- dia
 				4:
-					Escribir "Estado de la tarea: "
-					Escribir "0.No iniciada."
-					Escribir "1.En proceso."
-					Escribir "2.Finalizada."
+					Escribir "| Estado de la tarea:                                             |"
+					Escribir "| 0. No iniciada.                                                 |"
+					Escribir "| 1. En proceso.                                                  |"
+					Escribir "| 2. Finalizada.                                                  |"
 					Leer p_tarea_estado[j]
 					Mientras p_tarea_estado[j] < 0 o p_tarea_estado[j] > 2
-						Escribir "Estado de la tarea no valido, ingrese nuevamente: "
-						Escribir "0.No iniciada."
-						Escribir "1.En proceso."
-						Escribir "2.Finalizada."
+						Escribir "| Estado de la tarea no valido, ingrese nuevamente:               |"
+						Escribir "| 0. No iniciada.                                                 |"
+						Escribir "| 1. En proceso.                                                  |"
+						Escribir "| 2. Finalizada.                                                  |"
 						Leer p_tarea_estado[j]
 					FinMientras
 				0:
@@ -456,9 +501,15 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 						Escribir "Opcion incorrecta."
 					FinSi
 				Hasta Que flag = 0 O flag = 1
+				Limpiar Pantalla
+				Escribir ""
 			FinSi
 		Hasta que flag = 0
 	FinSi
+	Escribir ""
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 Fin Funcion
 
 Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia)
@@ -480,9 +531,11 @@ Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, co
 		// Dibujar el encabezado del Gantt
 		Escribir "DIAGRAMA DE GANTT"
 		Escribir "----------------"
+		Escribir ""
 		Escribir "Proyecto N°" proyecto_nro[i] ": " proyecto_nombre[i]
-		Escribir "Tarea          | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30"
-		Escribir "----------------+--------------------------------------------------------------------------------"
+		Escribir "------------------------------+-----------------------------------------------------------------------------------------"
+		Escribir "Tarea                         | 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30"
+		Escribir "------------------------------+-----------------------------------------------------------------------------------------"
 		
 		// Dibujar cada tarea
 		Definir z, inicio, duracion como entero
@@ -490,25 +543,29 @@ Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, co
 			si ref_tarea_proyecto[z] = i+1 Entonces
 				Escribir Sin Saltar p_tarea_nombre[z]
 				// Rellenar espacios para alinear
-				Para j <- 0 Hasta 15 - Longitud(p_tarea_nombre[z]) Hacer
+				Para j <- 0 Hasta 29 - Longitud(p_tarea_nombre[z]) Hacer
 					Escribir Sin Saltar " "
 				FinPara
 				Escribir Sin Saltar "|"
 				// Dibujar la barra de la tarea
-				Para j <- 0 Hasta 79 Hacer
+				Para j <- 0 Hasta 29 Hacer
 					inicio<-Trunc(p_tarea_fechaini[z]/100)
 					duracion<-p_tarea_duracion[z]
 					Si j >= inicio Y j < (inicio + duracion) Entonces
-						Escribir Sin Saltar "X"
+						Escribir Sin Saltar " X "
 					Sino
-						Escribir Sin Saltar "-"
+						Escribir Sin Saltar " - "
 					FinSi
 				FinPara
 				Escribir ""
 			FinSi
 		FinPara
-		Escribir "----------------+--------------------------------------------------------------------------------"
+		Escribir "------------------------------+-----------------------------------------------------------------------------------------"
+		Escribir ""
 	FinSi
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 FinFuncion
 
 Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, k por referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, min por referencia, max por referencia)
@@ -545,49 +602,59 @@ Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Re
 			p_tarea_fechaini[j]<-0
 			ref_tarea_proyecto[j]<-0
 			p_tarea_estado[j]<-3
-			cont_tareas_proy<-cont_tareas_proy - 1
+			cont_tareas_proy<-cont_tareas_proy-1
 		FinPara
 		Escribir "Proyecto eliminado con exito"
 		Para i<-0 hasta cont_proyectos con paso 1 Hacer
 			imprimir_proyecto_tarea(ref_tarea_proyecto, proyecto_nro, cont_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j)
 		FinPara
 	FinSi
+	Escribir ""
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
 FinFuncion
 
-Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro por referencia, cont_tareas_proy Por Referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, k Por Referencia, j Por Referencia)
-	Escribir ""
-	Escribir proyecto_nro[k] sin saltar
-	Escribir " - " sin saltar
-	Escribir proyecto_nombre[k]
-	Escribir "Nro - Nombre Tarea - Fecha - Duracion - Estado"
+Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro por referencia, cont_tareas_proy Por valor, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por valor, j Por Referencia)
+	
+	Escribir " ----------------------------------------------------------------- "
+	Escribir "| N° " proyecto_nro[i] sin saltar
+	Escribir " - " proyecto_nombre[i] sin saltar 
+    Escribir Relleno(proyecto_nombre[i]) "|"
+	Escribir " ----------------------------------------------------------------- "
+	Escribir "| Nro   Nombre Tarea     Fecha   Duracion (dias)     Estado       |"
 	Para j<-0 hasta cont_tareas_proy-1 con paso 1 Hacer
-		Si ref_tarea_proyecto[j] = k+1 Entonces
+		Si ref_tarea_proyecto[j] = i+1 Entonces
+			Escribir "| " sin saltar
 			Escribir p_tarea_nro[j] sin saltar
-			Escribir " - " sin saltar
+			Escribir "     " sin saltar
 			Escribir p_tarea_nombre[j] sin saltar
-			Escribir " - " sin saltar
+			Para r<-0 hasta (17-Longitud(p_tarea_nombre[j])) con paso 1 hacer
+				Escribir sin saltar " "
+			FinPara
 			Escribir (p_tarea_fechaini[j] MOD 100) "/" sin saltar // desglosar el numero
 			Escribir Trunc(p_tarea_fechaini[j]/100) sin saltar // desglosar el numero
-			Escribir " - " sin saltar
+			Escribir "           " sin saltar
 			Escribir p_tarea_duracion[j] sin saltar
-			Escribir " - " sin saltar
+			Escribir "          " sin saltar
 			Segun p_tarea_estado[j] hacer
 				0:
-					Escribir "No iniciada"
+					Escribir "No iniciada    |"
 				1:
-					Escribir "En proceso"
+					Escribir "En proceso     |"
 				2:
-					Escribir "Finalizada"
+					Escribir "Finalizada     |"
 				3:
-					Escribir "Eliminada"
+					Escribir "Eliminada      |"
 			FinSegun
 		FinSi
 	FinPara
+	Escribir " ----------------------------------------------------------------- "
 FinFuncion
 
 Funcion Encabezado
 	Borrar Pantalla
-	Escribir "----------- Bienvenido al gestor de tareas y proyectos -----------"
+	Escribir " ---------- Bienvenido al gestor de tareas y proyectos ---------- "
 	Escribir ""
 FinFuncion
 
@@ -600,6 +667,18 @@ Funcion PrecargarTareas(cont_tareas Por Referencia, tarea_nro por referencia, ta
 		tarea_estado[p]<-cont_tareas-1
 		tarea_nombre[p]<-"Tarea de prueba"
 	FinPara
+FinFuncion
+
+Funcion cadena_caracteres<-Relleno(cadena_caracteres por valor)
+	Definir long, restante, largo Como Entero
+	long<-Longitud(cadena_caracteres)
+	cadena_caracteres<-""
+	largo<-57
+	restante<-largo-long
+	mientras (restante > 0) Hacer
+		cadena_caracteres<-Concatenar(cadena_caracteres," ")
+		restante<-restante-1
+	FinMientras
 FinFuncion
 
 Funcion PrecargarProyecto (ref_tarea_proyecto por referencia, proyecto_nro por referencia, proyecto_nombre por referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, p_tarea_nro por referencia, p_tarea_fechaini por referencia, p_tarea_estado por referencia, p_tarea_nombre por referencia, p_tarea_duracion por referencia)
