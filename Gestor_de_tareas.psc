@@ -26,6 +26,8 @@ Algoritmo Gestor_de_Tareas
 	Escribir "La presente version del programa admite hasta " n " tareas inividuales y " m " tareas pertenecientes a proyectos."
 	PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
 	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
+	PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
+	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
 	Repetir
 		Escribir " ---------- Bienvenido al gestor de tareas y proyectos ---------- "
 		Escribir "|                                                                |"
@@ -636,14 +638,14 @@ Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro 
 	Escribir " - " proyecto_nombre[i] sin saltar 
     Escribir Relleno(proyecto_nombre[i]) "|"
 	Escribir " ----------------------------------------------------------------- "
-	Escribir "| Nro   Nombre Tarea     Fecha   Duracion (dias)     Estado       |"
+	Escribir "| Nro        Tarea         Fecha   Duracion (dias)     Estado     |"
 	Para j<-0 hasta cont_tareas_proy-1 con paso 1 Hacer
 		Si ref_tarea_proyecto[j] = i+1 Entonces
 			Escribir "| " sin saltar
 			Escribir p_tarea_nro[j] sin saltar
 			Escribir "     " sin saltar
 			Escribir p_tarea_nombre[j] sin saltar
-			Para r<-0 hasta (17-Longitud(p_tarea_nombre[j])) con paso 1 hacer
+			Para r<-0 hasta (19-Longitud(p_tarea_nombre[j])) con paso 1 hacer
 				Escribir sin saltar " "
 			FinPara
 			Escribir (p_tarea_fechaini[j] MOD 100) "/" sin saltar
@@ -653,13 +655,13 @@ Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro 
 			Escribir "          " sin saltar
 			Segun p_tarea_estado[j] hacer
 				0:
-					Escribir "No iniciada    |"
+					Escribir "No iniciada  |"
 				1:
-					Escribir "En proceso     |"
+					Escribir "En proceso   |"
 				2:
-					Escribir "Finalizada     |"
+					Escribir "Finalizada   |"
 				3:
-					Escribir "Eliminada      |"
+					Escribir "Eliminada    |"
 			FinSegun
 		FinSi
 	FinPara
@@ -676,10 +678,10 @@ Funcion PrecargarTareas(cont_tareas Por Referencia, tarea_nro por referencia, ta
 	Definir p Como Entero
 	Para p<-0 hasta 2 con paso 1 hacer
 		cont_tareas<-cont_tareas+1
-		tarea_nro[p]<-cont_tareas
-		tarea_fechaini[p]<-(cont_tareas*100)+cont_tareas
-		tarea_estado[p]<-cont_tareas-1
-		tarea_nombre[p]<-"Tarea de prueba"
+		tarea_nro[cont_tareas-1]<-cont_tareas
+		tarea_fechaini[cont_tareas-1]<-(cont_tareas*100)+cont_tareas
+		tarea_estado[cont_tareas-1]<-p
+		tarea_nombre[cont_tareas-1]<-"Tarea de prueba"
 	FinPara
 FinFuncion
 
@@ -701,21 +703,21 @@ Funcion PrecargarProyecto (ref_tarea_proyecto por referencia, proyecto_nro por r
 	proyecto_nro[cont_proyectos] <- cont_proyectos+1
 	cont_proyectos<-cont_proyectos+1
 	
-	Para p<-0 hasta cont_proyectos+1 con paso 1 hacer
+	Para p<-0 hasta 2 con paso 1 hacer
 		cont_tareas_proy<-cont_tareas_proy+1
-		p_tarea_nro[p]<-cont_tareas_proy
-		ref_tarea_proyecto[p]<-cont_proyectos
-		p_tarea_fechaini[p]<-(cont_tareas_proy*100)+cont_tareas_proy
-		p_tarea_duracion[p]<-cont_tareas_proy
-		p_tarea_estado[p]<-cont_tareas_proy-1
-		p_tarea_nombre[p]<-"Tarea prueba Proy"
+		p_tarea_nro[cont_tareas_proy-1]<-cont_tareas_proy
+		ref_tarea_proyecto[cont_tareas_proy-1]<-cont_proyectos
+		p_tarea_fechaini[cont_tareas_proy-1]<-((cont_tareas_proy)*100)+cont_tareas_proy+3
+		p_tarea_duracion[cont_tareas_proy-1]<-cont_tareas_proy
+		p_tarea_estado[cont_tareas_proy-1]<-p
+		p_tarea_nombre[cont_tareas_proy-1]<-"Tarea prueba Proy"
 	FinPara
 FinFuncion
 
 //FUNCION CALENDARIO
 Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia, p_tarea_estado por Referencia, p_tarea_nombre por Referencia, tarea_nro por Referencia, tarea_fechaini por Referencia, tarea_estado por Referencia, tarea_nombre por Referencia, cont_tareas por valor, cont_tareas_proy por valor, m por valor, n por valor)
-	Definir a, b, q, fila, columna, opt, hoja, dia_inc,mes_inc, tarea_cal_dia, tarea_cal_nro, tarea_cal_estado, cont_cal Como Entero
-	Definir dias_semana, meses_anio, tarea_cal_nombre Como Caracter
+	Definir alerta, a, b, q, fila, columna, opt, dia_inc, mes_inc, tarea_cal_dia, tarea_cal_nro, tarea_cal_estado, cont_cal Como Entero
+	Definir dias_semana, meses_anio, tarea_cal_nombre, hoja Como Caracter
 	Dimension dias_semana[7], meses_anio[12], hoja[5,7], tarea_cal_nombre[m+n], tarea_cal_dia[m+n], tarea_cal_nro[m+n], tarea_cal_estado[m+n]
 	
 	cont_cal<-0
@@ -724,12 +726,12 @@ Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia,
 	b<-cont_tareas_proy
 	Para i<-0 hasta 3 con paso 1 Hacer
 		para j<-0 hasta 6 con paso 1 Hacer
-			hoja[i,j]<-dia_inc
+			hoja[i,j]<-ConvertirATexto(dia_inc)
 			dia_inc<-dia_inc+1
 		FinPara
 	FinPara
-	hoja[4,0]<-29
-	hoja[4,1]<-30
+	hoja[4,0]<-"29"
+	hoja[4,1]<-"30"
 	
 	meses_anio[0]<-"ENERO"
 	meses_anio[1]<-"FEBRERO"
@@ -806,10 +808,10 @@ Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia,
         // Imprimir valores de la fila
 		Escribir Sin Saltar "|" 
         Para columna <- 0 Hasta 6 Hacer
-			Si hoja[fila, columna] < 10 Entonces
+			Si ConvertirANumero(hoja[fila, columna])< 10 Entonces
                 Escribir Sin Saltar "   ","[   ",hoja[fila, columna],"  ]", "  "
 			Sino
-				Si hoja[fila, columna] < 100 Entonces
+				Si ConvertirANumero(hoja[fila, columna]) < 100 Entonces
 					Escribir Sin Saltar "   ", "[  ",hoja[fila, columna],"  ]", "  "
 				SiNo	
 					Escribir Sin Saltar "   ", "[ ",hoja[fila, columna],"  ]", " "
@@ -832,13 +834,13 @@ Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia,
 		FinPara
 		Segun tarea_cal_estado[w] hacer
 			0:
-				Escribir "No iniciada"
+				Escribir "No iniciada                                               |"
 			1:
-				Escribir "En proceso "
+				Escribir "En proceso                                                |"
 			2:
-				Escribir "Finalizada "
+				Escribir "Finalizada                                                |"
 			3:
-				Escribir "Eliminada  "
+				Escribir "Eliminada                                                 |"
 		FinSegun
 	FinPara
 	Escribir "Presione Enter para continuar..."
