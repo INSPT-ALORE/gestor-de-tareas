@@ -24,10 +24,9 @@ Algoritmo Gestor_de_Tareas
 	Dimension proyecto_nro[m], ref_tarea_proyecto[m], p_tarea_nro[m], p_tarea_fechaini[m], p_tarea_duracion[m], p_tarea_estado[m], proyecto_nombre[m], p_tarea_nombre[m] //Vectorizacion de variables de proyectos
 	
 	Escribir "La presente version del programa admite hasta " n " tareas inividuales y " m " tareas pertenecientes a proyectos."
-	
+	PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
+	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
 	Repetir
-		PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
-		PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
 		Escribir " ---------- Bienvenido al gestor de tareas y proyectos ---------- "
 		Escribir "|                                                                |"
 		Escribir "|                                                                |"
@@ -38,9 +37,9 @@ Algoritmo Gestor_de_Tareas
 		Escribir "|                                                                |"
 		Escribir "| 2.Proyectos (crear, modificar, eliminar, visualizar)           |"
 		Escribir "|                                                                |"
-		Escribir "| 3.Herramienta Hoja de calculo                                  |"
+		Escribir "| 3.Calendario (consolidado de tareas)                           |"
 		Escribir "|                                                                |"
-		Escribir "| 4.Calendario                                                   |"
+		Escribir "| 4.Herramienta Hoja de calculo                                  |"
 		Escribir "|                                                                |"
 		Escribir "| 0.Finalizar programa                                           |"
 		Escribir "|                                                                |"
@@ -49,17 +48,22 @@ Algoritmo Gestor_de_Tareas
 		Leer op
 		Segun op Hacer
 			1:
+				Limpiar Pantalla
 				menu_tareas(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, i, flag, dia, mes, n, eleccion)
-			2: 
+			2:
+				Limpiar Pantalla
 				menu_proyectos(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j, flag, dia, mes, m, min, max, eleccion)
 			3:
-				HojaDeCalculo()
+				Limpiar Pantalla
+				Calendario(p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, cont_tareas_proy, m, n)
 			4:
-				// Calendario
+				Limpiar Pantalla
+				HojaDeCalculo()
 			0:
 				Escribir "Se finaliza el programa."
 			Otro:
 				Escribir "La opcion ingresada no esta en el menú."
+				Limpiar Pantalla
 		FinSegun
 	Hasta que op = 0		
 FinAlgoritmo
@@ -278,7 +282,6 @@ Funcion eliminar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia,
 FinFuncion
 
 Funcion imprimir_tarea (tarea_nro Por Referencia, tarea_nombre Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, k Por Valor)
-	Definir g como Entero
 	Escribir "| " tarea_nro[k] sin saltar
 	Escribir "    " sin saltar
 	Escribir tarea_nombre[k] sin saltar
@@ -329,17 +332,23 @@ Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Refer
 				Si cont_proyectos>=m Entonces
 					Escribir "Se alcanzó el máximo nro de proyectos en esta version (20). Elimine un proyecto existente para liberar espacio."
 				SiNo
+					Limpiar Pantalla
 					crear_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j, flag, dia, mes, m)
 				FinSi
 			2:
+				Limpiar Pantalla
 				modificar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max, m)
 			3:
+				Limpiar Pantalla
 				Gantt(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			4:
+				Limpiar Pantalla
 				eliminar_proyecto(proyecto_nro, ref_tarea_proyecto, cont_proyectos, cont_tareas_proy, cant_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, k, j, flag, dia, mes, min, max)
 			0:
+				Limpiar Pantalla
 				Escribir "Se retorna al menu principal"
 			Otro:
+				Limpiar Pantalla
 				Escribir "La opcion no esta en el menú."
 		FinSegun
 	Hasta que eleccion = 0
@@ -414,6 +423,11 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 		Escribir ""
 		Escribir "| Ingrese el Nro del proyecto que desea modificar.                |"
 		Leer i
+		Mientras i<1 o i>cont_proyectos Hacer
+			Escribir "| El proyecto indicado no existe                                  |"
+			Escribir "| Ingrese el proyecto nuevamente:                                 |"
+			Leer j
+		FinMientras
 		i<-i-1
 		Limpiar Pantalla
 		Escribir ""
@@ -632,8 +646,8 @@ Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro 
 			Para r<-0 hasta (17-Longitud(p_tarea_nombre[j])) con paso 1 hacer
 				Escribir sin saltar " "
 			FinPara
-			Escribir (p_tarea_fechaini[j] MOD 100) "/" sin saltar // desglosar el numero
-			Escribir Trunc(p_tarea_fechaini[j]/100) sin saltar // desglosar el numero
+			Escribir (p_tarea_fechaini[j] MOD 100) "/" sin saltar
+			Escribir Trunc(p_tarea_fechaini[j]/100) sin saltar
 			Escribir "           " sin saltar
 			Escribir p_tarea_duracion[j] sin saltar
 			Escribir "          " sin saltar
@@ -694,9 +708,144 @@ Funcion PrecargarProyecto (ref_tarea_proyecto por referencia, proyecto_nro por r
 		p_tarea_fechaini[p]<-(cont_tareas_proy*100)+cont_tareas_proy
 		p_tarea_duracion[p]<-cont_tareas_proy
 		p_tarea_estado[p]<-cont_tareas_proy-1
-		p_tarea_nombre[p]<-"Tarea de prueba"
+		p_tarea_nombre[p]<-"Tarea prueba Proy"
 	FinPara
 FinFuncion
+
+//FUNCION CALENDARIO
+Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia, p_tarea_estado por Referencia, p_tarea_nombre por Referencia, tarea_nro por Referencia, tarea_fechaini por Referencia, tarea_estado por Referencia, tarea_nombre por Referencia, cont_tareas por valor, cont_tareas_proy por valor, m por valor, n por valor)
+	Definir a, b, q, fila, columna, opt, hoja, dia_inc,mes_inc, tarea_cal_dia, tarea_cal_nro, tarea_cal_estado, cont_cal Como Entero
+	Definir dias_semana, meses_anio, tarea_cal_nombre Como Caracter
+	Dimension dias_semana[7], meses_anio[12], hoja[5,7], tarea_cal_nombre[m+n], tarea_cal_dia[m+n], tarea_cal_nro[m+n], tarea_cal_estado[m+n]
+	
+	cont_cal<-0
+	dia_inc<-1
+	a<-cont_tareas
+	b<-cont_tareas_proy
+	Para i<-0 hasta 3 con paso 1 Hacer
+		para j<-0 hasta 6 con paso 1 Hacer
+			hoja[i,j]<-dia_inc
+			dia_inc<-dia_inc+1
+		FinPara
+	FinPara
+	hoja[4,0]<-29
+	hoja[4,1]<-30
+	
+	meses_anio[0]<-"ENERO"
+	meses_anio[1]<-"FEBRERO"
+	meses_anio[2]<-"MARZO"
+	meses_anio[3]<-"ABRIL"
+	meses_anio[4]<-"MAYO"
+	meses_anio[5]<-"JUNIO"
+	meses_anio[6]<-"JULIO"
+	meses_anio[7]<-"AGOSTO"
+	meses_anio[8]<-"SEPTIEMBRE"
+	meses_anio[9]<-"OCTUBRE"
+	meses_anio[10]<-"NOVIEMBRE"
+	meses_anio[11]<-"DICIEMBRE"
+	
+	dias_semana[0]<-"Lunes"
+	dias_semana[1]<-"Martes"
+	dias_semana[2]<-"Miercoles"
+	dias_semana[3]<-"Jueves"
+	dias_semana[4]<-"Viernes"
+	dias_semana[5]<-"Sabado"
+	dias_semana[6]<-"Domingo"
+	
+	Escribir "|                            CALENDARIO DE TAREAS                                               |"
+	Escribir "  ----------------------------------------------------------------------------------------------"
+	Escribir "| Ingrese el mes que desea visualizar (1-12):                                                   |"
+	Leer opt
+	Mientras opt>12 O opt<1 Hacer
+		Escribir "| Mes invalido. Ingrese el mes que desea visualizar:                                            |"
+		Leer opt
+	FinMientras
+	Limpiar Pantalla
+	
+	Para q<-0 hasta a-1 con paso 1 Hacer
+		mes_inc<-Trunc(tarea_fechaini[q]/100)
+		Si mes_inc = opt Entonces
+			tarea_cal_nro[cont_cal]<-tarea_nro[q]
+			tarea_cal_nombre[cont_cal]<-tarea_nombre[q]
+			tarea_cal_dia[cont_cal]<-tarea_fechaini[q]
+			tarea_cal_estado[cont_cal]<-tarea_estado[q]
+			cont_cal<-cont_cal+1
+		FinSi
+	FinPara
+	
+	Para q<-0 hasta b-1 con paso 1 Hacer
+		mes_inc<-Trunc(p_tarea_fechaini[q]/100)
+		Si mes_inc = opt Entonces
+			tarea_cal_nro[cont_cal]<-p_tarea_nro[q]
+			tarea_cal_nombre[cont_cal]<-p_tarea_nombre[q]
+			tarea_cal_dia[cont_cal]<-p_tarea_fechaini[q]
+			tarea_cal_estado[cont_cal]<-p_tarea_estado[q]
+			cont_cal<-cont_cal+1
+		FinSi
+	FinPara
+	
+	Escribir "|                                       CALENDARIO DE TAREAS                                    |"
+	Escribir "  ----------------------------------------------------------------------------------------------"
+	Escribir "                                              " meses_anio[opt-1]
+	Escribir "  ----------------------------------------------------------------------------------------------"
+	
+	// Índice superior
+	Escribir Sin Saltar "|    " 
+    Para j = 0 Hasta 6 Con Paso 1
+		Escribir Sin Saltar dias_semana[j]
+		Para k<-0 hasta (12-Longitud(dias_semana[j])) con paso 1 hacer
+			Escribir Sin Saltar" "
+		FinPara
+    FinPara
+	Escribir "|" sin saltar
+    Escribir "" 
+	
+	// Imprimir filas con índice lateral
+    Para fila <- 0 Hasta 3 Hacer
+		
+        // Imprimir valores de la fila
+		Escribir Sin Saltar "|" 
+        Para columna <- 0 Hasta 6 Hacer
+			Si hoja[fila, columna] < 10 Entonces
+                Escribir Sin Saltar "   ","[   ",hoja[fila, columna],"  ]", "  "
+			Sino
+				Si hoja[fila, columna] < 100 Entonces
+					Escribir Sin Saltar "   ", "[  ",hoja[fila, columna],"  ]", "  "
+				SiNo	
+					Escribir Sin Saltar "   ", "[ ",hoja[fila, columna],"  ]", " "
+				FinSi
+            FinSi
+        FinPara
+		Escribir Sin Saltar "    |" 
+        Escribir "" // Salto de línea para la siguiente fila
+    FinPara
+	Escribir Sin Saltar "|   ", "[  ",hoja[4, 0],"  ]", "  "
+	Escribir "   ", "[  ",hoja[4, 1],"  ]", "                                                                       |"
+	Escribir "  ----------------------------------------------------------------------------------------------"
+	Escribir "| DIA       Tarea                     Estado                                                    |"
+	Para w<-0 hasta cont_cal-1 con paso 1 Hacer
+		Escribir "|  " tarea_cal_dia[w] MOD 100 ":" sin saltar
+		Escribir "    " sin saltar
+		Escribir tarea_cal_nombre[w] sin saltar
+		Para g<-0 hasta (28-Longitud(tarea_cal_nombre[w])) con paso 1 hacer
+			Escribir sin saltar " "
+		FinPara
+		Segun tarea_cal_estado[w] hacer
+			0:
+				Escribir "No iniciada"
+			1:
+				Escribir "En proceso "
+			2:
+				Escribir "Finalizada "
+			3:
+				Escribir "Eliminada  "
+		FinSegun
+	FinPara
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla
+FinFuncion
+
 
 //FUNCION HOJA DE CALCULO
 Funcion HojaDeCalculo
@@ -1394,3 +1543,7 @@ Funcion DivisionCeldas(hoja)
 		Escribir "Error: No se puede dividir por cero"
 	FinSi
 FinFuncion
+
+
+
+
