@@ -28,7 +28,9 @@ Algoritmo Gestor_de_Tareas
 	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
 	PrecargarTareas(cont_tareas, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre)
 	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
+	PrecargarProyecto(ref_tarea_proyecto, proyecto_nro, proyecto_nombre, cont_proyectos, cont_tareas_proy, p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, p_tarea_duracion)
 	Repetir
+		Limpiar pantalla
 		Escribir " ---------- Bienvenido al gestor de tareas y proyectos ---------- "
 		Escribir "|                                                                |"
 		Escribir "|                                                                |"
@@ -103,7 +105,7 @@ Funcion menu_tareas(tarea_nro Por Referencia, tarea_fechaini Por Referencia, tar
 			2:
 				modificar_tarea(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, i, k, flag, dia, mes)
 			3:
-				// Kanban 
+				KanbanTablero(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas)
 			4:
 				eliminar_tarea(tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, i, j, k, flag, dia, mes)
 			0:
@@ -207,13 +209,13 @@ Funcion modificar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia
 				Escribir "| 0. No iniciada.                                                |"
 				Escribir "| 1. En proceso.                                                 |"
 				Escribir "| 2. Finalizada.                                                 |"
-				Leer tarea_estado[cont_tareas]
-				Mientras tarea_estado[cont_tareas] < 0 o tarea_estado[cont_tareas] > 2
+				Leer tarea_estado[i]
+				Mientras tarea_estado[i] < 0 o tarea_estado[i] > 2
 					Escribir "| Estado de la tarea no valido. Ingrese un n° del 0 al 2:        |"
 					Escribir "| 0. No iniciada.                                                |"
 					Escribir "| 1. En proceso.                                                 |"
 					Escribir "| 2. Finalizada.                                                 |"
-					Leer tarea_estado[cont_tareas]
+					Leer tarea_estado[i]
 				FinMientras
 			0:
 				Escribir "Se retorna al menu principal"
@@ -240,6 +242,113 @@ Funcion modificar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia
 	Limpiar Pantalla
 Fin Funcion
 
+Funcion KanbanTablero(tarea_nro por referencia, tarea_fechaini por referencia, tarea_estado por referencia, tarea_nombre por referencia, cont_tareas por valor)
+    Definir porHacerLista, enProgresLista, hechoLista Como Cadena
+    Definir seleccion, tarea Como Cadena
+    Definir i Como Entero
+    Dimension porHacerLista[15]
+    Dimension enProgresLista[15]
+    Dimension hechoLista[15]
+    
+	
+    Inicializar_Tablero(porHacerLista, enProgresLista, hechoLista)
+    
+    
+    Para i <- 0 Hasta cont_tareas-1 Con Paso 1 Hacer
+        Si tarea_estado[i] = 0 Entonces
+            porHacerLista[i] <- tarea_nombre[i]
+        Sino
+            Si tarea_estado[i] = 1 Entonces
+                enProgresLista[i] <- tarea_nombre[i]
+            Sino
+                Si tarea_estado[i] = 2 Entonces
+                    hechoLista[i] <- tarea_nombre[i]
+                FinSi
+            FinSi
+        FinSi
+    FinPara
+    
+	
+
+	Limpiar Pantalla
+	Mostrar_Menu_Principal()
+	Mostrar_Tablero_Completo(porHacerLista, enProgresLista, hechoLista)
+	Mostrar_Estado_Tareas(porHacerLista, enProgresLista, hechoLista)
+	Escribir "Presione Enter para continuar..."
+	Esperar Tecla
+	Limpiar Pantalla   
+FinFuncion
+
+// Función para inicializar el tablero
+Funcion Inicializar_Tablero(porHacerLista, enProgresLista, hechoLista)
+    Definir i Como Entero
+    Para i <- 0 Hasta 14 Con Paso 1 Hacer
+        porHacerLista[i] <- ""
+        enProgresLista[i] <- ""
+        hechoLista[i] <- ""
+    FinPara
+FinFuncion
+
+Funcion Mostrar_Menu_Principal
+	Escribir "+-----------------------------------------------------------------------+"
+	Escribir "|                           TABLERO KANBAN                              |"
+	Escribir "+-----------------------------------------------------------------------+"
+FinFuncion
+
+Funcion Mostrar_Estado_Tareas(porHacerLista, enProgresLista, hechoLista)
+    Definir i, porHacer, enProgreso, terminadas Como Entero
+    porHacer <- 0
+    enProgreso <- 0
+    terminadas <- 0
+    
+    Para i <- 0 Hasta 14 Con Paso 1 Hacer
+        Si porHacerLista[i] <> "" Entonces
+            porHacer <- porHacer + 1
+        FinSi
+        Si enProgresLista[i] <> "" Entonces
+            enProgreso <- enProgreso + 1
+        FinSi
+        Si hechoLista[i] <> "" Entonces
+            terminadas <- terminadas + 1
+        FinSi
+    FinPara
+    
+    Escribir "Estado Actual del Tablero:"
+    Escribir "Tareas No Iniciadas: ", porHacer
+    Escribir "Tareas en Proceso: ", enProgreso
+    Escribir "Tareas Finalizadas: ", terminadas
+	Escribir ""
+FinFuncion
+
+Funcion Mostrar_Tablero_Completo(porHacerLista, enProgresLista, hechoLista)
+    Definir i Como Entero
+    Escribir "+-----------------------+-----------------------+-----------------------+"
+    Escribir "|      NO INICIADA      |      EN PROGRESO       |       FINALIZADA     |"
+    Escribir "+-----------------------+-----------------------+-----------------------+"
+    
+    Para i <- 0 Hasta 9 Con Paso 1 Hacer
+        Escribir "| ", AjustarTexto(porHacerLista[i]), " | ", AjustarTexto(enProgresLista[i]), " | ", AjustarTexto(hechoLista[i]), " |"
+        Escribir "+-----------------------+-----------------------+-----------------------+"
+    FinPara
+	Escribir ""
+FinFuncion
+
+Funcion text <- AjustarTexto(entrada)
+    Definir text, espacios Como Cadena
+    Definir i Como Entero
+    Si Longitud(entrada) > 20 Entonces
+        text <- Subcadena(entrada, 0, 20)
+    Sino
+        text <- entrada
+        espacios <- ""
+        Para i <- 0 Hasta 20 - Longitud(entrada) Con Paso 1 Hacer
+            espacios <- Concatenar(espacios, " ")
+        FinPara
+        text <- Concatenar(text, espacios)
+    FinSi
+FinFuncion
+
+
 Funcion eliminar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia, tarea_estado Por Referencia, tarea_nombre Por Referencia, cont_tareas Por Referencia, i Por Referencia, j Por Referencia, k Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia)
 	Encabezado()
 	Escribir " ---------------------------------------------------------------- "
@@ -250,9 +359,9 @@ Funcion eliminar_tarea (tarea_nro Por Referencia, tarea_fechaini Por Referencia,
 		imprimir_tarea(tarea_nro, tarea_nombre, tarea_fechaini, tarea_estado, i)
 	FinPara
 	Escribir " --------------------------------------------------------------- "
-	Escribir "| Ingrese el Nro de la tarea que desea eliminar:                1 |"
+	Escribir "| Ingrese el Nro de la tarea que desea eliminar:                 |"
 	Leer i
-	Mientras i>cont_tareas Hacer
+	Mientras i>cont_tareas o i<=0 Hacer
 		Escribir "| La tarea no existe, ingrese el n° de tarea a eliminar:         |"
 		Leer i
 	FinMientras
@@ -357,9 +466,6 @@ Funcion menu_proyectos(proyecto_nro por referencia, ref_tarea_proyecto Por Refer
 Fin Funcion
 
 Funcion crear_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, cant_tareas_proy por referencia, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por Referencia, j Por Referencia, flag Por Referencia, dia Por Referencia, mes Por Referencia, m por valor)
-	Escribir "Presione Enter para continuar..."
-	Esperar Tecla
-	Limpiar Pantalla
 	Encabezado()
 	Escribir "| Ingrese la cantidad de tareas que componen su proyecto:        |"
 	Leer cant_tareas_proy
@@ -425,10 +531,10 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 		Escribir ""
 		Escribir "| Ingrese el Nro del proyecto que desea modificar.                |"
 		Leer i
-		Mientras i<1 o i>cont_proyectos Hacer
+		Mientras i<=0 o i>cont_proyectos Hacer
 			Escribir "| El proyecto indicado no existe                                  |"
 			Escribir "| Ingrese el proyecto nuevamente:                                 |"
-			Leer j
+			Leer i
 		FinMientras
 		i<-i-1
 		Limpiar Pantalla
@@ -538,11 +644,11 @@ Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, co
 		Escribir ""
 		Escribir "Ingrese el Nro del proyecto que desea visualizar:"
 		Leer i
-		i<-i-1
-		Mientras i<0 o i>cont_proyectos Hacer
+		Mientras i<=0 o i>cont_proyectos Hacer
 			Escribir "Numero de proyecto inexistente, ingresar numero nuevamente: "
 			leer i
 		FinMientras
+		i<-i-1
 		Escribir ""
 		// Dibujar el encabezado del Gantt
 		Escribir "DIAGRAMA DE GANTT"
@@ -565,7 +671,7 @@ Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, co
 				Escribir Sin Saltar "|"
 				// Dibujar la barra de la tarea
 				Para j <- 0 Hasta 29 Hacer
-					inicio<-Trunc(p_tarea_fechaini[z]/100)
+					inicio<-(p_tarea_fechaini[z] MOD 100)-1
 					duracion<-p_tarea_duracion[z]
 					Si j >= inicio Y j < (inicio + duracion) Entonces
 						Escribir Sin Saltar " X "
@@ -594,16 +700,12 @@ Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Re
 		FinPara
 		Escribir "Ingrese el N° de proyecto que desea eliminar."
 		Leer i
-		Mientras i>cont_proyectos Hacer
+		Mientras i<=0 O i>cont_proyectos Hacer
 			Escribir "El proyecto no existe, ingrese nuevamente el nro de proyecto que desea eliminar:"
 			Leer i
 		FinMientras
-		i <- i-1
-		proyecto_nro[i]<-0
-		proyecto_nombre[i]<-"Proyecto eliminado"
-		cont_proyectos<-cont_proyectos-1
 		Para j<-0 hasta cont_tareas_proy-1 con paso 1 hacer 
-			Si ref_tarea_proyecto[j] = i+1 entonces
+			Si ref_tarea_proyecto[j] = i entonces
 				si p_tarea_nro[j] < min entonces
 					min<-p_tarea_nro[j]
 				FinSi
@@ -611,17 +713,46 @@ Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Re
 					max<-p_tarea_nro[j]
 				FinSi
 			FinSi
-		FinPara	
-		Para j<-min-1 hasta max-1 con paso 1 Hacer
-			p_tarea_nro[j]<-0
-			p_tarea_nombre[j]<-"Tarea eliminada"
-			p_tarea_fechaini[j]<-0
-			ref_tarea_proyecto[j]<-0
-			p_tarea_estado[j]<-3
-			cont_tareas_proy<-cont_tareas_proy-1
 		FinPara
+		i <- i-1
+		Definir res Como Entero
+		res<-max-min
+		Para w<-i hasta cont_proyectos-2 Hacer
+			proyecto_nombre[w]<-proyecto_nombre[w+1]
+		FinPara
+		proyecto_nro[cont_proyectos-1]<-0
+		proyecto_nombre[cont_proyectos-1]<-"Proyecto eliminado"
+		min<-min-1
+		Para u<-0 hasta res con paso 1 Hacer
+			p_tarea_nombre[min]<-p_tarea_nombre[min+res]
+			p_tarea_fechaini[min]<-p_tarea_fechaini[min+res]
+			ref_tarea_proyecto[min]<-ref_tarea_proyecto[min+res]
+			p_tarea_estado[min]<-p_tarea_estado[min+res]
+		FinPara
+		Para l<-0 hasta res con paso 1 Hacer
+			p_tarea_nro[cont_tareas_proy-l]<-0
+			p_tarea_nombre[cont_tareas_proy-l]<-"Tarea eliminada"
+			p_tarea_fechaini[cont_tareas_proy-l]<-0
+			ref_tarea_proyecto[cont_tareas_proy-l]<-	-1
+			p_tarea_estado[cont_tareas_proy-l]<-	3
+		FinPara
+
+		
+		proyecto_nro[cont_proyectos-1]<-0
+		proyecto_nombre[cont_proyectos-1]<-"Proyecto eliminado"
+		cont_proyectos<-cont_proyectos-1
+		
+		p_tarea_nro[cont_tareas_proy-1]<-0
+		p_tarea_nombre[cont_tareas_proy-1]<-"Tarea eliminada"
+		p_tarea_fechaini[cont_tareas_proy-1]<-0
+		ref_tarea_proyecto[cont_tareas_proy-1]<- -1
+		p_tarea_estado[cont_tareas_proy-1]<-3
+		cont_tareas_proy<-cont_tareas_proy-res-1
+		Limpiar pantalla
+		Escribir ""
 		Escribir "Proyecto eliminado con exito"
-		Para i<-0 hasta cont_proyectos con paso 1 Hacer
+		i<-0
+		Para i<-0 hasta cont_proyectos-1 con paso 1 Hacer
 			imprimir_proyecto_tarea(ref_tarea_proyecto, proyecto_nro, cont_tareas_proy, proyecto_nombre, p_tarea_nro, p_tarea_fechaini, p_tarea_duracion, p_tarea_estado, p_tarea_nombre, i, j)
 		FinPara
 	FinSi
@@ -699,7 +830,7 @@ FinFuncion
 
 Funcion PrecargarProyecto (ref_tarea_proyecto por referencia, proyecto_nro por referencia, proyecto_nombre por referencia, cont_proyectos por referencia, cont_tareas_proy Por Referencia, p_tarea_nro por referencia, p_tarea_fechaini por referencia, p_tarea_estado por referencia, p_tarea_nombre por referencia, p_tarea_duracion por referencia)
 	Definir p Como Entero
-	proyecto_nombre[cont_proyectos] <- "Proyecto de prueba"
+	proyecto_nombre[cont_proyectos] <- concatenar("Proyecto de prueba ", ConvertirATexto(cont_proyectos+1))
 	proyecto_nro[cont_proyectos] <- cont_proyectos+1
 	cont_proyectos<-cont_proyectos+1
 	
