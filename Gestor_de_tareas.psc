@@ -567,7 +567,7 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 			Escribir "| ¿Qué desea modificar de la tarea seleccionada?                  |"
 			Escribir "| 1.Nombre                                                        |"
 			Escribir "| 2.Fecha de inicio                                               |"
-			Escribir "| 3.Fecha de finalizacion                                         |"
+			Escribir "| 3.Duracion                                                      |"
 			Escribir "| 4.Estado                                                        |"
 			Escribir "| 0.Volver al menu principal                                      |"
 			Escribir "| Elija una opcion:                                               |"
@@ -650,7 +650,7 @@ Funcion Gantt(proyecto_nro por referencia, ref_tarea_proyecto Por Referencia, co
 		FinMientras
 		i<-i-1
 		Escribir ""
-		// Dibujar el encabezado del Gantt
+		Limpiar pantalla
 		Escribir "DIAGRAMA DE GANTT"
 		Escribir "----------------"
 		Escribir ""
