@@ -562,7 +562,6 @@ Funcion modificar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por R
 			Leer j
 		FinMientras
 		j<-j-1
-		
 		Repetir
 			Escribir "| ¿Qué desea modificar de la tarea seleccionada?                  |"
 			Escribir "| 1.Nombre                                                        |"
@@ -715,39 +714,31 @@ Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Re
 			FinSi
 		FinPara
 		i <- i-1
-		Definir res Como Entero
-		res<-max-min
+		Definir res, total Como Entero //cantidad de tareas a reacomodar
+		total<-cont_tareas_proy-(max-min+1)
+		res<-max-min+1
 		Para w<-i hasta cont_proyectos-2 Hacer
 			proyecto_nombre[w]<-proyecto_nombre[w+1]
 		FinPara
 		proyecto_nro[cont_proyectos-1]<-0
 		proyecto_nombre[cont_proyectos-1]<-"Proyecto eliminado"
 		min<-min-1
-		Para u<-0 hasta res con paso 1 Hacer
-			p_tarea_nombre[min]<-p_tarea_nombre[min+res]
-			p_tarea_fechaini[min]<-p_tarea_fechaini[min+res]
-			ref_tarea_proyecto[min]<-ref_tarea_proyecto[min+res]
-			p_tarea_estado[min]<-p_tarea_estado[min+res]
+		Para u<-0 hasta res-1 con paso 1 hacer
+			Para u<-min hasta cont_tareas_proy-2 con paso 1 Hacer
+				p_tarea_nombre[u]<-p_tarea_nombre[u+1]
+				p_tarea_fechaini[u]<-p_tarea_fechaini[u+1]
+				ref_tarea_proyecto[u]<-ref_tarea_proyecto[u+1]
+				p_tarea_estado[u]<-p_tarea_estado[u+1]
+			FinPara
 		FinPara
-		Para l<-0 hasta res con paso 1 Hacer
+		Para l<-0 hasta res-1 con paso 1 Hacer
 			p_tarea_nro[cont_tareas_proy-l]<-0
 			p_tarea_nombre[cont_tareas_proy-l]<-"Tarea eliminada"
 			p_tarea_fechaini[cont_tareas_proy-l]<-0
 			ref_tarea_proyecto[cont_tareas_proy-l]<-	-1
 			p_tarea_estado[cont_tareas_proy-l]<-	3
 		FinPara
-
-		
-		proyecto_nro[cont_proyectos-1]<-0
-		proyecto_nombre[cont_proyectos-1]<-"Proyecto eliminado"
 		cont_proyectos<-cont_proyectos-1
-		
-		p_tarea_nro[cont_tareas_proy-1]<-0
-		p_tarea_nombre[cont_tareas_proy-1]<-"Tarea eliminada"
-		p_tarea_fechaini[cont_tareas_proy-1]<-0
-		ref_tarea_proyecto[cont_tareas_proy-1]<- -1
-		p_tarea_estado[cont_tareas_proy-1]<-3
-		cont_tareas_proy<-cont_tareas_proy-res-1
 		Limpiar pantalla
 		Escribir ""
 		Escribir "Proyecto eliminado con exito"
@@ -763,7 +754,6 @@ Funcion eliminar_proyecto(proyecto_nro por referencia, ref_tarea_proyecto Por Re
 FinFuncion
 
 Funcion imprimir_proyecto_tarea(ref_tarea_proyecto Por Referencia, proyecto_nro por referencia, cont_tareas_proy Por valor, proyecto_nombre por referencia, p_tarea_nro Por Referencia, p_tarea_fechaini Por Referencia, p_tarea_duracion Por Referencia, p_tarea_estado Por Referencia, p_tarea_nombre Por Referencia, i Por valor, j Por Referencia)
-	
 	Escribir " ----------------------------------------------------------------- "
 	Escribir "| N° " proyecto_nro[i] sin saltar
 	Escribir " - " proyecto_nombre[i] sin saltar 
@@ -1312,7 +1302,7 @@ Funcion CalcularSumaFila(hoja)
     Para columna <- 0 Hasta 9 Hacer
         suma <- suma + hoja[fila, columna]
     FinPara
-    Escribir "La suma de la fila ", fila, " es: ", suma
+    Escribir "La suma de la fila ", fila+1, " es: ", suma
 FinFuncion
 
 Funcion CalcularPromedioColumna(hoja)
@@ -1331,7 +1321,7 @@ Funcion CalcularPromedioColumna(hoja)
         suma <- suma + hoja[fila, columna]
     FinPara
     promedio <- suma / 10
-    Escribir "El promedio de la columna ", columna, " es: ", promedio
+    Escribir "El promedio de la columna ", columna+1, " es: ", promedio
 FinFuncion
 
 Funcion CalcularMaximoFila(hoja)
@@ -1351,7 +1341,7 @@ Funcion CalcularMaximoFila(hoja)
             maximo <- hoja[fila, columna]
         FinSi
     FinPara
-    Escribir "El máximo de la fila ", fila, " es: ", maximo
+    Escribir "El máximo de la fila ", fila+1, " es: ", maximo
 FinFuncion
 
 Funcion CalcularMinimoColumna(hoja)
@@ -1371,7 +1361,7 @@ Funcion CalcularMinimoColumna(hoja)
             minimo <- hoja[fila, columna]
         FinSi
     FinPara
-    Escribir "El mínimo de la columna ", columna, " es: ", minimo
+    Escribir "El mínimo de la columna ", columna+1, " es: ", minimo
 FinFuncion
 
 Funcion CalcularPotencia(hoja Por Referencia)
@@ -1559,7 +1549,7 @@ Funcion SumarCeldas(hoja)
 		columna2<-columna2-1
 	FinMientras
 	resultado <- hoja[fila1, columna1] + hoja[fila2, columna2]
-	Escribir "La suma de (", fila1, ",", columna1, ") y (", fila2, ",", columna2, ") es: ", resultado
+	Escribir "La suma de (", fila1+1, ",", columna1+1, ") y (", fila2+1, ",", columna2+1, ") es: ", resultado
 FinFuncion 
 
 Funcion RestarCeldas(hoja)
@@ -1596,7 +1586,7 @@ Funcion RestarCeldas(hoja)
 		columna2<-columna2-1
 	FinMientras
 	resultado <- hoja[fila1, columna1] - hoja[fila2, columna2]
-	Escribir "La suma de (", fila1, ",", columna1, ") y (", fila2, ",", columna2, ") es: ", resultado
+	Escribir "La suma de (", fila1+1, ",", columna1+1, ") y (", fila2+1, ",", columna2+1, ") es: ", resultado
 FinFuncion
 
 Funcion MultiplicarCeldas(hoja)
@@ -1633,7 +1623,7 @@ Funcion MultiplicarCeldas(hoja)
 		columna2<-columna2-1
 	FinMientras
 	resultado <- hoja[fila1, columna1] * hoja[fila2, columna2]
-	Escribir "La suma de (", fila1, ",", columna1, ") y (", fila2, ",", columna2, ") es: ", resultado
+	Escribir "La suma de (", fila1, ",", columna1+1, ") y (", fila2+1, ",", columna2+1, ") es: ", resultado
 FinFuncion
 
 Funcion DivisionCeldas(hoja)
@@ -1671,7 +1661,7 @@ Funcion DivisionCeldas(hoja)
 	FinMientras
 	Si hoja[fila2, columna2] <> 0 Entonces
 		resultado <- hoja[fila1, columna1] / hoja[fila2, columna2]
-		Escribir "La división de (", fila1, ",", columna1, ") entre (", fila2, ",", columna2, ") es: ", resultado
+		Escribir "La división de (", fila1+1, ",", columna1+1, ") entre (", fila2+1, ",", columna2+1, ") es: ", resultado
 	Sino
 		Escribir "Error: No se puede dividir por cero"
 	FinSi
