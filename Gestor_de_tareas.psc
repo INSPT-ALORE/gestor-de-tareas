@@ -9,6 +9,20 @@ Algoritmo Gestor_de_Tareas
 	Definir proyecto_nombre, p_tarea_nombre Como Caracter //variables de caracteres para proyectos
 	Definir cont_proyectos, cont_tareas_proy, cant_tareas_proy como Entero// variables auxiliares para proyectos
 	
+	//Variables para Ahorro
+	Definir monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, ahorro_cumplido Como Entero
+	cont_meses<-0
+	meses_ahorro<-0
+	monto_objetivo<-0
+	
+	Dimension montos_mensuales[12]
+	
+	//Variables para Ejercicio
+	Definir semana, entreno_cumplido, cant_dias, cant_semanas Como Entero
+	Dimension semana[4,7], entreno_cumplido[4,7]
+	cant_dias<-0
+	cant_semanas<-0
+	
 	//Variables auxiliares
 	Definir min, max, i, j, k, n, m, eleccion, op, flag, dia, mes como Entero
 	
@@ -43,7 +57,9 @@ Algoritmo Gestor_de_Tareas
 		Escribir "|                                                                |"
 		Escribir "| 3.Calendario (consolidado de tareas)                           |"
 		Escribir "|                                                                |"
-		Escribir "| 4.Herramienta Hoja de calculo                                  |"
+		Escribir "| 4.Habitos [¡NUEVA FUNCION!]                                    |"
+		Escribir "|                                                                |"
+		Escribir "| 5.Herramienta Hoja de calculo                                  |"
 		Escribir "|                                                                |"
 		Escribir "| 0.Finalizar programa                                           |"
 		Escribir "|                                                                |"
@@ -61,6 +77,9 @@ Algoritmo Gestor_de_Tareas
 				Limpiar Pantalla
 				Calendario(p_tarea_nro, p_tarea_fechaini, p_tarea_estado, p_tarea_nombre, tarea_nro, tarea_fechaini, tarea_estado, tarea_nombre, cont_tareas, cont_tareas_proy, m, n)
 			4:
+				Limpiar Pantalla
+				menu_habitos(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, semana, entreno_cumplido, cant_dias, cant_semanas)
+			5:
 				Limpiar Pantalla
 				HojaDeCalculo()
 			0:
@@ -969,6 +988,944 @@ Funcion Calendario (p_tarea_nro por referencia, p_tarea_fechaini por Referencia,
 	Limpiar Pantalla
 FinFuncion
 
+//FUNCION HABITOS
+Funcion menu_habitos(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, semana, entreno_cumplido, cant_dias, cant_semanas)
+	Encabezado()
+	Repetir
+		Escribir "   -------- MENU DE HABITOS ------------  "
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | Elija un habito:                     |"
+		Escribir " |                                      |"
+		Escribir " |                                      |"
+		Escribir " | 1.Ahorro                             |"
+		Escribir " |                                      |"
+		Escribir " | 2.Lectura                            |"
+		Escribir " |                                      |"
+		Escribir " | 3.Ejercicio                          |"
+		Escribir " |                                      |"
+		Escribir " | 4.Estudio (Pomodoro)                 |"
+		Escribir " |                                      |"
+		Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+		Escribir "  --------------------------------------"
+		Escribir "  Elija una opcion: "
+		Leer eleccion
+		Segun eleccion Hacer
+			1:
+				Limpiar Pantalla
+				menu_ahorro(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, ahorro_cumplido)
+			2:
+				Limpiar Pantalla
+				menu_lectura
+			3:
+				Limpiar Pantalla
+				menu_ejercicio(semana, entreno_cumplido, cant_dias, cant_semanas)
+			4:
+				Limpiar Pantalla
+				menu_estudio
+			0:
+				Limpiar Pantalla
+				Escribir "Se retorna al menu principal"
+			Otro:
+				Limpiar Pantalla
+				Escribir "La opcion no esta en el menú."
+		FinSegun
+	Hasta que eleccion = 0
+FinFuncion
+
+//HABITO AHORRO
+Funcion menu_ahorro (monto_objetivo por referencia, meses_ahorro por referencia, montos_mensuales por referencia, cont_meses por referencia, ahorro_cumplido Por Referencia)
+	Encabezado()
+	Definir choice Como Entero
+	Repetir
+		Escribir "   -------- MENU DE AHORRO -------------  "
+		Escribir " |                                      |"
+		Escribir " | 1.Crear objetivo                     |"
+		Escribir " |                                      |"
+		Escribir " | 2.Actualizar objetivo                |"
+		Escribir " |                                      |"
+		Escribir " | 3.Visualizar ahorros                 |"
+		Escribir " |                                      |"
+		Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+		Escribir "  --------------------------------------"
+		Escribir "  Elija una opcion: "
+		Leer choice
+		Mientras choice<0 O choice>3 Hacer
+			Escribir "Opcion incorrecta. Ingrese una opcion del 0 al 3:"
+			Leer choice
+		FinMientras
+		Segun choice Hacer
+			1:
+				Limpiar Pantalla
+				crear_ahorro(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, ahorro_cumplido)
+			2:
+				Limpiar Pantalla
+				actualizar_ahorro(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, ahorro_cumplido)
+			3:
+				Limpiar Pantalla
+				visualizar_ahorro(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses, ahorro_cumplido)
+			0:
+				Limpiar Pantalla
+				Escribir "Se retorna al menu principal"
+			Otro:
+				Limpiar Pantalla
+				Escribir "La opcion no esta en el menú."
+		FinSegun
+	Hasta que choice = 0
+	
+FinFuncion
+
+Funcion crear_ahorro (monto_objetivo Por Referencia, meses_ahorro Por Referencia, montos_mensuales Por Referencia, cont_meses Por Referencia, ahorro_cumplido por referencia)
+	
+	Definir eliminar_objetivo, monto_ahorrado, meses_ahorrados, porcentaje, promedio_mensual_propuesto, promedio_mensual_real Como Entero
+	
+	Si meses_ahorro <> 0 Entonces
+		Escribir "Ya existe un objetivo de ahorro creado. Para crear uno nuevo debe eliminar el objetivo existente."
+		Escribir "Desea eliminar el objetivo existente? 1.Si 0.No: "
+		Leer eliminar_objetivo
+		Mientras eliminar_objetivo < 0 O eliminar_objetivo > 1 Hacer
+			Escribir "Opcion incorrecta. Desea eliminar el objetivo existente? 1.Si 0.No: "
+			Leer eliminar_objetivo
+		FinMientras
+		Si eliminar_objetivo = 1 Entonces
+			cont_meses<-0
+			monto_objetivo<-0
+			promedio_mensual_real<-0
+			promedio_mensual_propuesto<-0
+			porcentaje<-0
+			meses_ahorro<-0
+			Escribir "Objetivo elminado. Ingrese nuevamente a la opcion 1.Crear objetivo para crear un nuevo habito de ahorro."
+			Esperar Tecla
+			Limpiar pantalla
+		SiNo
+			Escribir "Se conserva el objetivo original."
+			Esperar Tecla
+			Limpiar Pantalla
+		FinSi
+	SiNo
+		ahorro_cumplido<-0
+		Escribir "Ingrese el monto objetivo que desea ahorrar:"
+		Leer monto_objetivo
+		Mientras monto_objetivo<=0
+			Escribir "El monto ingresado debe ser un numero entero positivo. Ingrese monto nuevamente: "
+			Leer monto_objetivo
+		FinMientras
+		Escribir "Ingrese la cantidad de meses (1 a 12) para cumplir su objetivo:"
+		Leer meses_ahorro
+		Mientras meses_ahorro<=0 O meses_ahorro>12 Hacer
+			Escribir "La cantidad de meses debe estar entre 1 y 12. Ingrese nuevamente: "
+			Leer meses_ahorro
+		FinMientras
+		promedio_mensual_propuesto<-trunc(monto_objetivo/meses_ahorro)
+		Escribir " ------------------------------------------------------ "
+		Escribir "  HABITO DE AHORRO"
+		Escribir " ------------------------------------------------------ "
+		Escribir "  Monto Objetivo: $" monto_objetivo
+		Escribir " ------------------------------------------------------ "
+		Escribir "  			         Monto mensual sugerido"
+		Para i<-0 hasta meses_ahorro-1 con paso 1 hacer
+			montos_mensuales[i]<-0
+			Si i<9 entonces
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "        $ "
+				Escribir promedio_mensual_propuesto
+			SiNo
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "       $ "
+				Escribir promedio_mensual_propuesto
+			FinSi
+		FinPara
+		Escribir " ------------------------------------------------------ "
+		Esperar Tecla
+		Limpiar pantalla
+	FinSi
+FinFuncion
+
+Funcion actualizar_ahorro (monto_objetivo Por Referencia, meses_ahorro Por Referencia, montos_mensuales Por Referencia, cont_meses Por Referencia, ahorro_cumplido por referencia)
+	
+	Definir monto_ahorrado, porcentaje, promedio_mensual_propuesto, promedio_mensual_real, diferencia, meses Como Entero
+	
+	Si meses_ahorro = 0 Entonces
+		Escribir "No hay un habito de ahorro creado."
+		Esperar Tecla
+		Limpiar pantalla
+	SiNo
+		Si ahorro_cumplido = 1 O meses_ahorro=cont_meses entonces
+			Escribir ""
+			Escribir " --------------------------------------------------------------------------------------------------------------------------------------------"
+			Escribir "  El objetivo de ahorro esta cumplido o finalizado. Para crear un objetivo nuevo ingrese a la opcion 1.Crear objetivo y elimine el existente."
+			Escribir " --------------------------------------------------------------------------------------------------------------------------------------------"
+			Escribir ""
+		Sino
+			Escribir ""
+			Escribir " -------------------------------------------------------------------------"
+			Escribir " Cuantos meses de ahorro transcurrieron? Ingrese una cantidad entre 1 y " meses_ahorro-cont_meses
+			Leer meses
+			Mientras meses<=0 O meses>meses_ahorro-cont_meses Hacer
+				Escribir " La cantidad de meses debe estar entre 1 y " meses_ahorro-cont_meses ". Ingrese la cantidad de meses nuevamente: "
+				Leer meses
+			FinMientras
+			Para i<-cont_meses hasta cont_meses+meses-1 con paso 1 Hacer
+				Escribir " Ingrese el monto ahorrado en el mes " i+1 ":"
+				Leer montos_mensuales[i]
+				Mientras montos_mensuales[i]<=0 Hacer
+					Escribir " Ingrese un monto positivo: "
+					Leer montos_mensuales[i]
+				FinMientras
+			FinPara
+			cont_meses<-cont_meses+meses
+		FinSi	
+			promedio_mensual_propuesto<-trunc(monto_objetivo/meses_ahorro)
+			monto_ahorrado<-0
+			Para i<-0 hasta cont_meses-1 con paso 1 Hacer
+				monto_ahorrado<-monto_ahorrado+montos_mensuales[i]
+			FinPara
+			porcentaje<-trunc(monto_ahorrado/monto_objetivo*100)
+			Si cont_meses<>0 entonces
+				promedio_mensual_real<-trunc(monto_ahorrado/cont_meses)
+			SiNo
+				promedio_mensual_real<-trunc(monto_ahorrado/meses_ahorro)
+			FinSi
+			
+			Si monto_ahorrado>=monto_objetivo Entonces
+				ahorro_cumplido<-1
+			FinSi
+			
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  HABITO DE AHORRO"
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  Monto Objetivo: $" monto_objetivo
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  			         Monto mensual propuesto        Monto mensual ahorrado         Dif. Mensual             "
+		Para i<-0 hasta meses_ahorro-1 con paso 1 hacer
+			diferencia<-montos_mensuales[i]-promedio_mensual_propuesto
+			Si i<9 entonces
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "           $ "
+				Escribir sin saltar promedio_mensual_propuesto
+				Escribir sin saltar "                        $ "
+				Escribir sin saltar montos_mensuales[i]
+				Escribir sin saltar "                       $ "
+				Escribir diferencia
+			SiNo
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "          $ "
+				Escribir sin saltar promedio_mensual_propuesto
+				Escribir sin saltar "                        $ "
+				Escribir sin saltar montos_mensuales[i]
+				Escribir sin saltar "                       $ "
+				Escribir diferencia
+			FinSi
+		FinPara
+		diferencia<-promedio_mensual_real-promedio_mensual_propuesto
+		Escribir ""
+		Escribir "  Total Ahorrado: $ " monto_ahorrado
+		Escribir "  Avance: %" porcentaje
+		Escribir "  Promedio de ahorro mensual propuesto: $ " promedio_mensual_propuesto
+		Si cont_meses>0 entonces
+			Escribir "  Promedio de ahorro mensual real: $ " promedio_mensual_real
+			Si ahorro_cumplido = 1 Entonces
+				Escribir "  Objetivo cumplido! Felicitaciones!"
+			SiNo
+				Si cont_meses=meses_ahorro Entonces
+					Escribir "  Hiciste un gran esfuerzo! Seguro conseguiras tu objetivo prontamente!"
+				sino 
+					Si diferencia>0
+						Escribir "  Tu ritmo de ahorro está por encima del propuesto. Excelente! Segui de esa manera!"
+					Sino
+						si diferencia<0
+							Escribir "  Tu ritmo de ahorro está por debajo del propuesto. No bajes los brazos! Con esfuerzo todo se puede!"
+						SiNo
+							Escribir "  Tu ritmo de ahorro coincide con el propuesto. Segui de esta manera!"
+						FinSi
+					FinSi
+				FinSi
+			FinSi
+		FinSi
+		Escribir " ------------------------------------------------------------------------------------------ "
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
+
+Funcion visualizar_ahorro (monto_objetivo Por Referencia, meses_ahorro Por Referencia, montos_mensuales Por Referencia, cont_meses Por Referencia, ahorro_cumplido por referencia)
+	
+	Definir monto_ahorrado, porcentaje, promedio_mensual_propuesto, promedio_mensual_real, diferencia Como Entero
+	
+	Si meses_ahorro = 0 Entonces
+		Escribir "No hay un habito de ahorro creado."
+		Esperar Tecla
+		Limpiar pantalla
+	SiNo
+		promedio_mensual_propuesto<-trunc(monto_objetivo/meses_ahorro)
+		monto_ahorrado<-0
+		Para i<-0 hasta meses_ahorro-1 con paso 1 Hacer
+			monto_ahorrado<-monto_ahorrado+montos_mensuales[i]
+		FinPara
+		porcentaje<-trunc(monto_ahorrado/monto_objetivo*100)
+		Si cont_meses<>0 entonces
+			promedio_mensual_real<-trunc(monto_ahorrado/cont_meses)
+		SiNo
+			promedio_mensual_real<-trunc(monto_ahorrado/meses_ahorro)
+		FinSi
+		
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  HABITO DE AHORRO"
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  Monto Objetivo: $" monto_objetivo
+		Escribir " ----------------------------------------------------------------------------------------- "
+		Escribir "  			         Monto mensual propuesto        Monto mensual ahorrado         Dif. Mensual             "
+		Para i<-0 hasta meses_ahorro-1 con paso 1 hacer
+			diferencia<-montos_mensuales[i]-promedio_mensual_propuesto
+			Si i<9 entonces
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "           $ "
+				Escribir sin saltar promedio_mensual_propuesto
+				Escribir sin saltar "                        $ "
+				Escribir sin saltar montos_mensuales[i]
+				Escribir sin saltar "                       $ "
+				Escribir diferencia
+			SiNo
+				Escribir sin saltar "  Mes "
+				Escribir sin saltar i+1
+				Escribir sin saltar "          $ "
+				Escribir sin saltar promedio_mensual_propuesto
+				Escribir sin saltar "                        $ "
+				Escribir sin saltar montos_mensuales[i]
+				Escribir sin saltar "                       $ "
+				Escribir diferencia
+			FinSi
+		FinPara
+		diferencia<-promedio_mensual_real-promedio_mensual_propuesto
+		Escribir ""
+		Escribir "  Total Ahorrado: $ " monto_ahorrado
+		Escribir "  Avance: %" porcentaje
+		Escribir "  Promedio de ahorro mensual propuesto: $ " promedio_mensual_propuesto
+		Si cont_meses>0 entonces
+			Escribir "  Promedio de ahorro mensual real: $ " promedio_mensual_real
+			Si ahorro_cumplido = 1 Entonces
+				Escribir "  Objetivo cumplido! Felicitaciones!"
+			SiNo
+				Si cont_meses=meses_ahorro Entonces
+					Escribir "  Hiciste un gran esfuerzo! Seguro conseguiras tu objetivo prontamente!"
+				sino 
+					Si diferencia>0
+						Escribir "  Tu ritmo de ahorro está por encima del propuesto. Excelente! Segui de esa manera!"
+					Sino
+						si diferencia<0
+							Escribir "  Tu ritmo de ahorro está por debajo del propuesto. No bajes los brazos! Con esfuerzo todo se puede!"
+						SiNo
+							Escribir "  Tu ritmo de ahorro coincide con el propuesto. Segui de esta manera!"
+						FinSi
+					FinSi
+				FinSi
+			FinSi
+		FinSi
+		Escribir " ------------------------------------------------------------------------------------------ "
+		
+		Si ahorro_cumplido = 1 O meses_ahorro=cont_meses entonces
+			Escribir " --------------------------------------------------------------------------------------------------------------------------------------------"
+			Escribir "  El objetivo de ahorro esta cumplido o finalizado. Para crear un objetivo nuevo ingrese a la opcion 1.Crear objetivo y elimine el existente."
+			Escribir " --------------------------------------------------------------------------------------------------------------------------------------------"
+			Escribir ""
+		FinSi
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
+
+Funcion menu_lectura
+	Definir cont_libros, cantidad_libros, MAX_LIBROS Como Entero
+    Definir lista_libros Como Cadena
+    Definir libro Como Cadena
+	
+    MAX_LIBROS <- 5
+    Dimension lista_libros[MAX_LIBROS]
+	
+    cont_libros <- 0
+	
+    Repetir
+        Escribir "  ----------- MENU DE LECTURA ---------- "
+        Escribir " |                                      |"
+        Escribir " |           Elija una opción:          |"
+		Escribir " |                                      |"
+        Escribir " | 1.Cargar libro                       |"
+		Escribir " |                                      |"
+        Escribir " | 2.Actualizar                         |"
+		Escribir " |                                      |"
+        Escribir " | 3.Mis avances                        |"
+		Escribir " |                                      |"
+        Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+        Escribir "  -------------------------------------- "
+        Escribir " "
+        Escribir "  Elija una opcion:  "
+        Leer eleccion
+		mientras (eleccion < 0 o eleccion > 3)
+			Escribir "  Elija una opcion correcta:  "
+			Leer eleccion
+		FinMientras
+        Segun eleccion Hacer
+            1:
+                Limpiar Pantalla
+                crear_lectura(lista_libros, cont_libros)
+            2:
+                Limpiar Pantalla
+                actualizar_lectura(lista_libros, cont_libros)
+            3:
+                Limpiar Pantalla
+                visualizar_lectura(lista_libros, cont_libros)
+            0:
+                Limpiar Pantalla
+                Escribir "Se retorna al menu principal"
+            Otro:
+                Limpiar Pantalla
+                Escribir "La opcion no esta en el menú."
+        FinSegun
+    Hasta que eleccion = 0
+FinFuncion
+
+Funcion crear_lectura(lista_libros Por Referencia, cont_libros Por Referencia)
+    MAX_LIBROS <- 5
+    Definir eleccion Como Entero
+	
+    Si (cont_libros <> 0) Entonces
+        Escribir "Ya existe un habito creado"
+        Escribir "Desea salir o eliminarlo? Presione 1.Eliminar o 0.Salir"
+        Leer eleccion
+        Mientras (eleccion > 1 o eleccion < 0)
+            Escribir "Elije una opcion correcta. Presione 1.Eliminar o 0.Salir"
+            Leer eleccion
+        FinMientras
+        Si (eleccion = 1) Entonces
+            Para i <- 0 Hasta MAX_LIBROS-1 Hacer
+                lista_libros[i] <- " "
+            FinPara
+            cont_libros <- 0
+            Escribir "Objetivo eliminado con éxito. Ahora puede cargar un nuevo objetivo."
+        FinSi
+    Sino
+        Escribir "Cual es tu objetivo de lectura (cantidad de libros entre 1 y ", MAX_LIBROS, ")"
+        Leer cantidad_libros
+        Mientras (cantidad_libros <= 0 o cantidad_libros > MAX_LIBROS)
+            Escribir "Ingrese una cantidad correcta de libros (entre 1 y ", MAX_LIBROS, ")"
+            Leer cantidad_libros
+        FinMientras
+		
+        cont_libros <- 0
+		
+        Para i <- 0 Hasta cantidad_libros-1 Con Paso 1 Hacer
+            Escribir "Ingrese el nombre del libro ", i+1, ":"
+            Leer libro
+            lista_libros[i] <- libro
+        FinPara
+		
+        cont_libros <- cantidad_libros
+        Escribir "Objetivo cargado con éxito."
+    FinSi
+    Esperar Tecla
+    Limpiar Pantalla
+FinFuncion
+
+Funcion visualizar_lectura(lista_libros Por Referencia, cont_libros Por Referencia)
+    Escribir "--- Mis Avances de Lectura ---"
+    Si cont_libros = 0 Entonces
+        Escribir "No hay libros cargados aún."
+    SiNo
+        Para i <- 0 Hasta cont_libros-1 Con Paso 1 Hacer
+            Escribir i+1, ". ", lista_libros[i]
+        FinPara
+        Escribir ""
+        Escribir "Total de libros: ", cont_libros
+    FinSi
+    Esperar Tecla
+    Limpiar Pantalla
+FinFuncion
+
+Funcion actualizar_lectura(lista_libros Por Referencia, cont_libros Por Referencia)
+    Si cont_libros = 0 Entonces
+        Escribir "No hay libros para actualizar."
+        Esperar Tecla
+        Limpiar Pantalla
+    SiNo
+        Definir opcion Como Entero
+        Definir libro_seleccionado Como Entero
+		
+        Escribir "--- Actualizar Libro Leído ---"
+        Escribir "Libros actuales:"
+        Para i <- 0 Hasta cont_libros-1 Con Paso 1 Hacer
+            Escribir i+1, ". ", lista_libros[i]
+        FinPara
+		
+        Escribir ""
+        Escribir "Seleccione el libro que ha leído (1-", cont_libros, "):"
+        Leer libro_seleccionado
+		
+        Mientras libro_seleccionado < 1 o libro_seleccionado > cont_libros
+            Escribir "Selección inválida. Intente de nuevo."
+            Leer libro_seleccionado
+        FinMientras
+		
+        Escribir "¿Pudiste completar el libro: ", lista_libros[libro_seleccionado-1], "? (1.Sí / 0.No)"
+        Leer opcion
+		
+        Si opcion = 1 Entonces
+            Para i <- libro_seleccionado-1 Hasta cont_libros-2 Con Paso 1 Hacer
+                lista_libros[i] <- lista_libros[i+1]
+            FinPara
+            cont_libros <- cont_libros - 1
+            lista_libros[cont_libros] <- " "
+            Escribir "Libro actualizado correctamente."
+        SiNo
+            Escribir "Actualización cancelada."
+        FinSi
+    FinSi
+    Esperar Tecla
+    Limpiar Pantalla
+FinFuncion
+
+//HABITO DE EJERCICIO
+Funcion menu_ejercicio(semana Por Referencia, entreno_cumplido Por Referencia, cant_dias Por Referencia, cant_semanas Por Referencia)
+	
+	Encabezado()
+	Definir choice Como Entero
+	Repetir
+		Escribir "   -------- EJERCICIO ------------------  "
+		Escribir " |                                      |"
+		Escribir " | 1.Crear plan de ejercicio            |"
+		Escribir " |                                      |"
+		Escribir " | 2.Actualizar avance semanal          |"
+		Escribir " |                                      |"
+		Escribir " | 3.Visualizar plan y avance           |"
+		Escribir " |                                      |"
+		Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+		Escribir "  --------------------------------------"
+		Escribir "  Elija una opcion: "
+		Leer choice
+		Mientras choice<0 O choice>3 Hacer
+			Escribir "Opcion incorrecta. Ingrese una opcion del 0 al 3:"
+			Leer choice
+		FinMientras
+		Segun choice Hacer
+			1:
+				Limpiar Pantalla
+				crear_ejercicio(semana, entreno_cumplido, cant_dias, cant_semanas)
+			2:
+				Limpiar Pantalla
+				actualizar_ejercicio(semana, entreno_cumplido, cant_dias, cant_semanas)
+			3:
+				Limpiar Pantalla
+				visualizar_ejercicio(semana, entreno_cumplido, cant_dias, cant_semanas)
+			0:
+				Limpiar Pantalla
+				Escribir "Se retorna al menu principal"
+			Otro:
+				Limpiar Pantalla
+				Escribir "La opcion no esta en el menú."
+		FinSegun
+	Hasta que choice = 0
+	
+FinFuncion
+
+Funcion crear_ejercicio(semana Por Referencia, entreno_cumplido Por Referencia, cant_dias Por Referencia, cant_semanas Por Referencia)
+	
+	Si cant_semanas <> 0 Entonces
+		Definir eliminar_objetivo Como Entero
+		Escribir "Ya existe un lan de ejercicios. Para crear uno nuevo debe eliminar el plan existente."
+		Escribir "Desea eliminar el plan existente? 1.Si 0.No: "
+		Leer eliminar_objetivo
+		Mientras eliminar_objetivo < 0 O eliminar_objetivo > 1 Hacer
+			Escribir "Opcion incorrecta. Desea eliminar el objetivo existente? 1.Si 0.No: "
+			Leer eliminar_objetivo
+		FinMientras
+		Si eliminar_objetivo = 1 Entonces
+			Para i<-0 hasta cant_semanas-1 con paso 1 Hacer
+				para j<-0 hasta cant_dias-1 con paso 1 Hacer
+					semana[i,j]<--1
+					entreno_cumplido[i,j]<--1
+				FinPara
+			FinPara
+			cant_dias<-0
+			cant_semanas<-0
+			Escribir "Objetivo elminado. Ingrese nuevamente a la opcion 1.Crear objetivo para crear un nuevo habito de ahorro."
+			Esperar Tecla
+			Limpiar pantalla
+		SiNo
+			Escribir "Se conserva el objetivo original."
+			Esperar Tecla
+			Limpiar Pantalla
+		FinSi
+	SiNo
+		Definir tipo Como Entero
+		
+		Escribir "Elija la cantidad de semanas del plan de entrenamiento (1 a 4): "
+		Leer cant_semanas
+		Mientras cant_semanas<1 o cant_semanas>4 Hacer
+			Escribir "Ingrese un numero de 1 a 4:"
+			Leer cant_semanas
+		FinMientras
+		Escribir "Elija la cantidad de dias a ejercitar por semana (1 a 7): "
+		Leer cant_dias
+		Mientras cant_dias<1 o cant_dias>7 Hacer
+			Escribir "Ingrese un numero de 1 a 7:"
+			Leer cant_dias
+		FinMientras
+		
+		Para i<-0 hasta cant_dias-1 con paso 1 Hacer
+			Escribir "Elija un tipo de entrenamiento para el dia " i+1 ":"
+			Escribir "1.Pesas"
+			Escribir "2.Aerobico"
+			Escribir "3.Deporte"
+			Leer tipo
+			Mientras tipo<1 o tipo>3 Hacer
+				Escribir "Ingrese un tipo valido:"
+				Escribir "1.Pesas"
+				Escribir "2.Aerobico"
+				Escribir "3.Deporte"
+				Leer tipo
+			FinMientras
+			tipo<-tipo-1
+			
+			Para j<-0 hasta cant_semanas-1 con paso 1 Hacer
+				semana[j,i]<-tipo
+				entreno_cumplido[j,i]<-0
+			FinPara
+		FinPara
+		
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+	
+FinFuncion
+
+Funcion actualizar_ejercicio(semana Por Referencia, entreno_cumplido Por Referencia, cant_dias Por Referencia, cant_semanas Por Referencia)
+	
+	Si cant_semanas = 0 Entonces
+		Escribir "No existe un plan de entrenamiento existente."
+		Esperar Tecla
+		Limpiar Pantalla
+	SiNo
+		Definir op, cumplido como entero
+		
+		Escribir " ----------------------------------------------------------------------------- "
+		Escribir "  PLAN DE ENTRENAMIENTO MENSUAL"
+		Escribir " ----------------------------------------------------------------------------- "
+		Escribir "  			               Tipo de entrenamiento          Cumplimiento             "
+		Para i<-0 hasta cant_semanas-1 con paso 1 hacer
+			Escribir " Semana " i+1
+			para j<-0 hasta cant_dias-1 con paso 1 Hacer
+				Escribir sin saltar "  Dia " j+1 "             "
+				Segun semana[i,j] Hacer
+					0:
+						Escribir sin saltar " Pesas"
+					1:
+						Escribir sin saltar " Aerobico"
+					2:
+						Escribir sin saltar " Deportes"
+				FinSegun
+				Si semana[i,j] = 0 entonces
+					Segun entreno_cumplido[i,j] Hacer
+						0:
+							Escribir "                          No"
+						1:
+							Escribir "                          Si"
+					FinSegun
+				SiNo
+					Segun entreno_cumplido[i,j] Hacer
+						0:
+							Escribir "                       No"
+						1:
+							Escribir "                       Si"
+					FinSegun
+				FinSi
+			FinPara
+			Escribir ""
+		FinPara
+		
+		Escribir "Elija la semana que desea actualizar: "
+		Leer op
+		Para i<-0 hasta cant_dias-1 con paso 1 Hacer
+			Escribir "Asististe al entreno del dia " i+1 "? 1.Si, 0.No"
+			Leer cumplido
+			Mientras cumplido<0 o cumplido>1 hacer
+				Escribir "Ingresar una opcion valida. Asisiste al entreno del dia? 1.Si, 0.No"
+				Leer cumplido
+			FinMientras
+			entreno_cumplido[op,i]<-cumplido
+		FinPara
+		
+		Escribir "Semana actualizada con éxito."
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
+
+Funcion visualizar_ejercicio(semana Por Referencia, entreno_cumplido Por Referencia, cant_dias Por Referencia, cant_semanas Por Referencia)
+	Si cant_semanas = 0 Entonces
+		Escribir "No existe un plan de entrenamiento existente."
+		Esperar Tecla
+		Limpiar Pantalla
+	SiNo
+		Definir total, total_cumplido, porcentaje, porcentaje_pesas, porcentaje_aerobico, porcentaje_deporte, pesas, pesa_cumplido, aerobico, aerobico_cumplido, deporte, deporte_cumplido Como Entero
+		
+		pesas<-0
+		aerobico<-0
+		deporte<-0
+		pesas_cumplido<-0
+		aerobico_cumplido<-0
+		deporte_cumplido<-0
+		porcentaje<-0
+		
+		Para i<-0 hasta cant_semanas-1 con paso 1 Hacer
+			para j<-0 hasta cant_dias-1 con paso 1 Hacer
+				Segun semana[i,j] Hacer
+					0:
+						pesas<-pesas+1
+					1:
+						aerobico<-aerobico+1
+					2:
+						deporte<-deporte+1
+				FinSegun
+			FinPara
+		FinPara
+		
+		total<-pesas+aerobico+deporte
+		
+		Para i<-0 hasta cant_semanas-1 con paso 1 Hacer
+			para j<-0 hasta cant_dias-1 con paso 1 Hacer
+				Si entreno_cumplido[i,j]=1 entonces
+					Segun semana[i,j] Hacer
+						0:
+							pesas_cumplido<-pesas_cumplido+1
+						1:
+							aerobico_cumplido<-aerobico_cumplido+1
+						2:
+							deporte_cumplido<-deporte_cumplido+1
+					FinSegun
+				FinSi
+			FinPara
+		FinPara
+		
+		total_cumplido<-pesas_cumplido+aerobico_cumplido+deporte_cumplido
+		
+		porcentaje<-trunc(total_cumplido/total*100)
+		porcentaje_pesas<-trunc(pesas_cumplido/pesas*100)
+		porcentaje_aerobico<-trunc(aerobico_cumplido/aerobico*100)
+		porcentaje_deporte<-trunc(deporte_cumplido/deporte*100)
+		
+		Escribir " ----------------------------------------------------------------------------- "
+		Escribir "  PLAN DE ENTRENAMIENTO MENSUAL"
+		Escribir " ----------------------------------------------------------------------------- "
+		Escribir "  			               Tipo de entrenamiento          Cumplimiento             "
+		Para i<-0 hasta cant_semanas-1 con paso 1 hacer
+			Escribir " Semana " i+1
+			para j<-0 hasta cant_dias-1 con paso 1 Hacer
+				Escribir sin saltar "  Dia " j+1 "             "
+				Segun semana[i,j] Hacer
+					0:
+						Escribir sin saltar " Pesas"
+					1:
+						Escribir sin saltar " Aerobico"
+					2:
+						Escribir sin saltar " Deportes"
+				FinSegun
+				Si semana[i,j] = 0 entonces
+					Segun entreno_cumplido[i,j] Hacer
+						0:
+							Escribir "                          No"
+						1:
+							Escribir "                          Si"
+					FinSegun
+				SiNo
+					Segun entreno_cumplido[i,j] Hacer
+						0:
+							Escribir "                       No"
+						1:
+							Escribir "                       Si"
+					FinSegun
+				FinSi
+			FinPara
+			Escribir ""
+		FinPara
+		Escribir " ----------------------------------------------------------------------------- "
+		Escribir "Procentajes de cumplimiento: "
+		Escribir "Total: " porcentaje "% (" total_cumplido "/" total ")"
+		Escribir "Entrenamiento de Pesas: " porcentaje_pesas "% (" pesas_cumplido "/" pesas ")"
+		Escribir "Entrenamiento Aerobico: " porcentaje_aerobico "% (" aerobico_cumplido "/" aerobico ")"
+		Escribir "Practica de Deportes: " porcentaje_deporte "% (" deporte_cumplido "/" deporte ")"
+		
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
+
+//HABITO DE ESTUDIO
+
+Funcion menu_estudio
+	//VARIABLES GLOBALES
+	Definir cont_materias, cantidad_materias, MAX_MATERIAS Como Entero
+	Definir lista_materias Como Cadena
+	Definir materia Como Cadena
+	
+	MAX_MATERIAS <- 5
+	Dimension lista_materias[MAX_MATERIAS]
+	
+	cont_materias <- 0
+	
+	Repetir
+		Escribir "  ----- MENU DE HABITOS DE ESTUDIO ----- "
+		Escribir " |                                      |"
+		Escribir " |           Elija una opción:          |"
+		Escribir " |                                      |"
+		Escribir " | 1.Cargar materia                     |"
+		Escribir " |                                      |"
+		Escribir " | 2.Actualizar progreso                |"
+		Escribir " |                                      |"
+		Escribir " | 3.Mis avances                        |"
+		Escribir " |                                      |"
+		Escribir " | 0.Volver al menu principal           |"
+		Escribir " |                                      |"
+		Escribir "  -------------------------------------- "
+		Escribir " "
+		Escribir "  Elija una opcion:  "
+		Leer eleccion
+		mientras (eleccion < 0 o eleccion > 3)
+			Escribir "  Elija una opcion correcta:  "
+			Leer eleccion
+		FinMientras
+		Segun eleccion Hacer
+			1:
+				Limpiar Pantalla
+				crear_objetivo_estudio(lista_materias, cont_materias)
+			2:
+				Limpiar Pantalla
+				actualizar_progreso_estudio(lista_materias, cont_materias)
+			3:
+				Limpiar Pantalla
+				visualizar_avances_estudio(lista_materias, cont_materias)
+			0:
+				Limpiar Pantalla
+				Escribir "Saliendo del programa de seguimiento de estudio"
+			Otro:
+				Limpiar Pantalla
+				Escribir "Opción inválida. Intente nuevamente."
+		FinSegun
+	Hasta que eleccion = 0
+	
+FinFuncion
+
+Funcion crear_objetivo_estudio(lista_materias Por Referencia, cont_materias Por Referencia)
+	MAX_MATERIAS <- 5
+	definir eleccion Como Entero
+	
+	Si (cont_materias <> 0) Entonces
+		Escribir "Ya existe un objetivo de estudio creado"
+		Escribir "Desea salir o eliminarlo? Presione 1.Eliminar o 0.Salir"
+		Leer eleccion
+		Mientras (eleccion > 1 o eleccion < 0)
+			Escribir "Elija una opción correcta. Presione 1.Eliminar o 0.Salir"
+			Leer eleccion
+		FinMientras
+		Si (eleccion = 1)  Entonces
+			Para i <- 0 Hasta MAX_MATERIAS-1 Hacer
+				lista_materias[i] <- ""
+			FinPara
+			cont_materias = 0
+		FinSi
+	sino 
+		Escribir "Cual es tu objetivo de estudio (cantidad de materias entre 1 y ", MAX_MATERIAS, ")"
+		leer cantidad_materias
+		cantidad_materias <- cantidad_materias - 1
+		Mientras (cantidad_materias < 0 o cantidad_materias > MAX_MATERIAS)
+			Escribir "Ingrese una cantidad correcta de materias (entre 1 y ", MAX_MATERIAS, ")"
+			Leer cantidad_materias
+		FinMientras
+		
+		cont_materias <- 0
+		
+		Para i<-0 hasta cantidad_materias Con Paso 1 Hacer
+			Escribir "Ingrese el nombre de la materia ", i+1, ":"
+			leer materia
+			lista_materias[i] <- materia
+		FinPara
+		cont_materias = cantidad_materias + 1
+		
+		Escribir "Objetivo de estudio cargado con éxito."
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
+
+Funcion visualizar_avances_estudio(lista_materias por referencia, cont_materias Por Referencia)
+	Escribir "--- Mis Avances de Estudio ---"
+	
+	Si cont_materias = 0 Entonces
+		Escribir "No hay materias cargadas aún."
+	SiNo
+		Para i <- 1 Hasta cont_materias Con Paso 1 Hacer
+			Escribir i, ". ", lista_materias[i-1]
+		FinPara
+		
+		Escribir ""
+		Escribir "Total de materias: ", cont_materias
+	FinSi
+	
+	Esperar Tecla
+	Limpiar Pantalla
+FinFuncion
+
+Funcion actualizar_progreso_estudio(lista_materias por referencia, cont_materias Por Referencia)
+	Si cont_materias = 0 Entonces
+		Escribir "No hay materias para actualizar."
+		Esperar Tecla
+		Limpiar Pantalla
+	SiNo
+		Definir opcion Como Entero
+		Definir materia_seleccionada Como Entero
+		
+		Escribir "--- Actualizar Progreso de Estudio ---"
+		Escribir "Materias actuales:"
+		
+		Para i <- 1 Hasta cont_materias Con Paso 1 Hacer
+			Escribir i, ". ", lista_materias[i-1]
+		FinPara
+		
+		Escribir ""
+		Escribir "Seleccione la materia que ha estudiado (1-", cont_materias, "):"
+		Leer materia_seleccionada
+		
+		Mientras materia_seleccionada < 1 o materia_seleccionada > cont_materias Hacer
+			Escribir "Selección inválida. Intente de nuevo."
+			Leer materia_seleccionada
+		FinMientras
+		
+		Escribir "¿Completó el estudio de la materia: ", lista_materias[materia_seleccionada-1], "? (1.Sí / 0.No)"
+		Leer opcion
+		
+		Si opcion = 1 Entonces
+			Para i <- materia_seleccionada Hasta cont_materias - 1 Con Paso 1 Hacer
+				lista_materias[i-1] <- lista_materias[i]
+			FinPara
+			
+			cont_materias <- cont_materias - 1
+			
+			Escribir "Progreso de estudio actualizado correctamente."
+		SiNo
+			Escribir "Actualización cancelada."
+		FinSi
+		
+		Esperar Tecla
+		Limpiar Pantalla
+	FinSi
+FinFuncion
 
 //FUNCION HOJA DE CALCULO
 Funcion HojaDeCalculo
@@ -1203,7 +2160,7 @@ FinFuncion
 Funcion LlenarMatriz (hoja)
 	Para fila <- 0 Hasta 9 Hacer
 		Para columna <- 0 Hasta 9 Hacer
-			hoja[fila, columna] <- Aleatorio(1,200)
+			hoja[fila, columna] <- Aleatorio(1, 200)
 		FinPara
 	FinPara
 FinFuncion
