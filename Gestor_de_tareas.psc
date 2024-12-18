@@ -23,6 +23,16 @@ Algoritmo Gestor_de_Tareas
 	cant_dias<-0
 	cant_semanas<-0
 	
+	//Variables para Lectura
+	Definir cont_libros, cantidad_libros, MAX_LIBROS Como Entero
+    Definir lista_libros Como Cadena
+    Definir libro Como Cadena
+	
+	//Variables para Estudio
+	Definir cont_materias, cantidad_materias, MAX_MATERIAS Como Entero
+	Definir lista_materias Como Cadena
+	Definir materia Como Cadena
+	
 	//Variables auxiliares
 	Definir min, max, i, j, k, n, m, eleccion, op, flag, dia, mes como Entero
 	
@@ -1004,7 +1014,7 @@ Funcion menu_habitos(monto_objetivo, meses_ahorro, montos_mensuales, cont_meses,
 		Escribir " |                                      |"
 		Escribir " | 3.Ejercicio                          |"
 		Escribir " |                                      |"
-		Escribir " | 4.Estudio (Pomodoro)                 |"
+		Escribir " | 4.Estudio                            |"
 		Escribir " |                                      |"
 		Escribir " | 0.Volver al menu principal           |"
 		Escribir " |                                      |"
@@ -1450,8 +1460,12 @@ Funcion visualizar_lectura(lista_libros Por Referencia, cont_libros Por Referenc
 FinFuncion
 
 Funcion actualizar_lectura(lista_libros Por Referencia, cont_libros Por Referencia)
-    Si cont_libros = 0 Entonces
+    definir eleccion, modif Como Entero
+	definir titulo_nuevo como cadena
+	
+	Si cont_libros = 0 Entonces
         Escribir "No hay libros para actualizar."
+		Escribir "Ingresa un objetivo nuevo para avanzar en tus metas"
         Esperar Tecla
         Limpiar Pantalla
     SiNo
@@ -1464,31 +1478,58 @@ Funcion actualizar_lectura(lista_libros Por Referencia, cont_libros Por Referenc
             Escribir i+1, ". ", lista_libros[i]
         FinPara
 		
-        Escribir ""
-        Escribir "Seleccione el libro que ha leído (1-", cont_libros, "):"
-        Leer libro_seleccionado
-		
-        Mientras libro_seleccionado < 1 o libro_seleccionado > cont_libros
-            Escribir "Selección inválida. Intente de nuevo."
-            Leer libro_seleccionado
-        FinMientras
-		
-        Escribir "¿Pudiste completar el libro: ", lista_libros[libro_seleccionado-1], "? (1.Sí / 0.No)"
-        Leer opcion
-		
-        Si opcion = 1 Entonces
-            Para i <- libro_seleccionado-1 Hasta cont_libros-2 Con Paso 1 Hacer
-                lista_libros[i] <- lista_libros[i+1]
-            FinPara
-            cont_libros <- cont_libros - 1
-            lista_libros[cont_libros] <- " "
-            Escribir "Libro actualizado correctamente."
-        SiNo
-            Escribir "Actualización cancelada."
-        FinSi
+		Escribir "¿Deseas modificar algun libro? Presiona 1 para Modificar Libro o 0 para Modificar Avance"
+		Leer eleccion
+		Si (eleccion = 1)Entonces
+			visualizar_libros(lista_libros, cont_libros)
+			Escribir "Ingrese el numero del libro a modificar"
+			leer modif
+			Mientras (modif < 1 o modif > cont_libros)
+				Escribir "Elije una opcion correcta de libro"
+				Leer modif
+			FinMientras
+			modif <- modif - 1
+			lista_libros[modif] <- ""
+			Escribir "Escriba el nuevo titulo"
+			leer titulo_nuevo
+			lista_libros[modif] <- titulo_nuevo
+			Escribir "Modificacion exitosa"
+		SiNo
+			Escribir ""
+			Escribir "Seleccione el libro que ha leído (1-", cont_libros, "):"
+			Leer libro_seleccionado
+			
+			Mientras libro_seleccionado < 1 o libro_seleccionado > cont_libros
+				Escribir "Selección inválida. Intente de nuevo."
+				Leer libro_seleccionado
+			FinMientras
+			
+			Escribir "¿Pudiste completar el libro: ", lista_libros[libro_seleccionado-1], "? (1.Sí / 0.No)"
+			Leer opcion
+			
+			Si opcion = 1 Entonces
+				Para i <- libro_seleccionado-1 Hasta cont_libros-2 Con Paso 1 Hacer
+					lista_libros[i] <- lista_libros[i+1]
+				FinPara
+				cont_libros <- cont_libros - 1
+				lista_libros[cont_libros] <- " "
+				Escribir "Libro actualizado correctamente."
+			SiNo
+				Escribir "Actualización cancelada."
+			FinSi
+		Finsi
     FinSi
+	
     Esperar Tecla
     Limpiar Pantalla
+	
+FinFuncion
+
+Funcion visualizar_libros(lista_libros Por Referencia, cont_libros por referencia)
+    Escribir "--- Mis libros ---"
+	Para i <- 0 Hasta cont_libros-1 Con Paso 1 Hacer
+		Escribir i+1, ". ", lista_libros[i]
+	FinPara
 FinFuncion
 
 //HABITO DE EJERCICIO
@@ -1599,7 +1640,7 @@ Funcion crear_ejercicio(semana Por Referencia, entreno_cumplido Por Referencia, 
 				entreno_cumplido[j,i]<-0
 			FinPara
 		FinPara
-		
+		Escribir "Plan creado con éxito."
 		Esperar Tecla
 		Limpiar Pantalla
 	FinSi
@@ -1683,6 +1724,9 @@ Funcion visualizar_ejercicio(semana Por Referencia, entreno_cumplido Por Referen
 		aerobico_cumplido<-0
 		deporte_cumplido<-0
 		porcentaje<-0
+		porcentaje_pesas<-0
+		porcentaje_aerobico<-0
+		porcentaje_deporte<-0
 		
 		Para i<-0 hasta cant_semanas-1 con paso 1 Hacer
 			para j<-0 hasta cant_dias-1 con paso 1 Hacer
@@ -1716,10 +1760,18 @@ Funcion visualizar_ejercicio(semana Por Referencia, entreno_cumplido Por Referen
 		
 		total_cumplido<-pesas_cumplido+aerobico_cumplido+deporte_cumplido
 		
-		porcentaje<-trunc(total_cumplido/total*100)
-		porcentaje_pesas<-trunc(pesas_cumplido/pesas*100)
-		porcentaje_aerobico<-trunc(aerobico_cumplido/aerobico*100)
-		porcentaje_deporte<-trunc(deporte_cumplido/deporte*100)
+		si total<>0 entonces
+			porcentaje<-trunc(total_cumplido/total*100)
+		FinSi
+		si pesas<>0 entonces
+			porcentaje_pesas<-trunc(pesas_cumplido/pesas*100)
+		FinSi
+		si aerobico<>0 entonces
+			porcentaje_aerobico<-trunc(aerobico_cumplido/aerobico*100)
+		FinSi
+		si deporte<>0 entonces
+			porcentaje_deporte<-trunc(deporte_cumplido/deporte*100)
+		FinSi
 		
 		Escribir " ----------------------------------------------------------------------------- "
 		Escribir "  PLAN DE ENTRENAMIENTO MENSUAL"
@@ -1883,6 +1935,9 @@ Funcion visualizar_avances_estudio(lista_materias por referencia, cont_materias 
 FinFuncion
 
 Funcion actualizar_progreso_estudio(lista_materias por referencia, cont_materias Por Referencia)
+	definir eleccion, modif Como Entero
+	definir titulo_nuevo como cadena
+	
 	Si cont_materias = 0 Entonces
 		Escribir "No hay materias para actualizar."
 		Esperar Tecla
@@ -1898,33 +1953,59 @@ Funcion actualizar_progreso_estudio(lista_materias por referencia, cont_materias
 			Escribir i, ". ", lista_materias[i-1]
 		FinPara
 		
-		Escribir ""
-		Escribir "Seleccione la materia que ha estudiado (1-", cont_materias, "):"
-		Leer materia_seleccionada
-		
-		Mientras materia_seleccionada < 1 o materia_seleccionada > cont_materias Hacer
-			Escribir "Selección inválida. Intente de nuevo."
-			Leer materia_seleccionada
-		FinMientras
-		
-		Escribir "¿Completó el estudio de la materia: ", lista_materias[materia_seleccionada-1], "? (1.Sí / 0.No)"
-		Leer opcion
-		
-		Si opcion = 1 Entonces
-			Para i <- materia_seleccionada Hasta cont_materias - 1 Con Paso 1 Hacer
-				lista_materias[i-1] <- lista_materias[i]
-			FinPara
-			
-			cont_materias <- cont_materias - 1
-			
-			Escribir "Progreso de estudio actualizado correctamente."
+		Escribir "¿Deseas modificar algun libro? Presiona 1 para Modificar Libro o 0 para Modificar Avance"
+		Leer eleccion
+		Si (eleccion = 1)Entonces
+			visualizar_materias(lista_materias, cont_materias)
+			Escribir "Ingrese el numero del libro a modificar"
+			leer modif
+			Mientras (modif < 1 o modif > cont_materias)
+				Escribir "Elije una opcion correcta de materia"
+				Leer modif
+			FinMientras
+			modif <- modif - 1
+			lista_materias[modif] <- ""
+			Escribir "Escriba la nueva materia"
+			leer titulo_nuevo
+			lista_materias[modif] <- titulo_nuevo
+			Escribir "Modificacion exitosa"
 		SiNo
-			Escribir "Actualización cancelada."
+			Escribir ""
+			Escribir "Seleccione la materia que ha estudiado (1-", cont_materias, "):"
+			Leer materia_seleccionada
+			
+			Mientras materia_seleccionada < 1 o materia_seleccionada > cont_materias Hacer
+				Escribir "Selección inválida. Intente de nuevo."
+				Leer materia_seleccionada
+			FinMientras
+			
+			Escribir "¿Completó el estudio de la materia: ", lista_materias[materia_seleccionada-1], "? (1.Sí / 0.No)"
+			Leer opcion
+			
+			Si opcion = 1 Entonces
+				Para i <- materia_seleccionada Hasta cont_materias - 1 Con Paso 1 Hacer
+					lista_materias[i-1] <- lista_materias[i]
+				FinPara
+				
+				cont_materias <- cont_materias - 1
+				
+				Escribir "Progreso de estudio actualizado correctamente."
+			SiNo
+				Escribir "Actualización cancelada."
+			FinSi
 		FinSi
-		
-		Esperar Tecla
-		Limpiar Pantalla
-	FinSi
+	Finsi
+	
+	Esperar Tecla
+	Limpiar Pantalla
+	
+FinFuncion
+
+Funcion visualizar_materias(lista_materias Por Referencia, cont_materias por referencia)
+    Escribir "--- Mis Materias ---"
+	Para i <- 0 Hasta cont_materias-1 Con Paso 1 Hacer
+		Escribir i+1, ". ", lista_materias[i]
+	FinPara
 FinFuncion
 
 //FUNCION HOJA DE CALCULO
