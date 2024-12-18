@@ -1895,11 +1895,11 @@ Funcion crear_objetivo_estudio(lista_materias Por Referencia, cont_materias Por 
 	sino 
 		Escribir "Cual es tu objetivo de estudio (cantidad de materias entre 1 y ", MAX_MATERIAS, ")"
 		leer cantidad_materias
-		cantidad_materias <- cantidad_materias - 1
-		Mientras (cantidad_materias < 0 o cantidad_materias > MAX_MATERIAS)
+		Mientras (cantidad_materias < 1 o cantidad_materias > MAX_MATERIAS)
 			Escribir "Ingrese una cantidad correcta de materias (entre 1 y ", MAX_MATERIAS, ")"
 			Leer cantidad_materias
 		FinMientras
+		cantidad_materias <- cantidad_materias - 1
 		
 		cont_materias <- 0
 		
@@ -1953,7 +1953,7 @@ Funcion actualizar_progreso_estudio(lista_materias por referencia, cont_materias
 			Escribir i, ". ", lista_materias[i-1]
 		FinPara
 		
-		Escribir "¿Deseas modificar algun libro? Presiona 1 para Modificar Libro o 0 para Modificar Avance"
+		Escribir "¿Deseas modificar alguna materia? Presiona 1 para Modificar Materia o 0 para Modificar Avance"
 		Leer eleccion
 		Si (eleccion = 1)Entonces
 			visualizar_materias(lista_materias, cont_materias)
